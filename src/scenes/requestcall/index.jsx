@@ -165,30 +165,26 @@ const RequestCall = () => {
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
+        // {
+        //   field: 'name',
+        //   headerName: 'Name',
+        //   flex: 1,
+        //   cellClassName: 'name-column--cell',
+        // },
         {
-          field: 'name',
-          headerName: 'Name',
-          flex: 1,
-          cellClassName: 'name-column--cell',
-        },
-        {
-          field: 'email',
-          headerName: 'Email',
-          flex: 1,
-        },
-        {
-          field: 'mobile',
+          field: 'number',
           headerName: 'Phone Number',
           flex: 1,
         },
         {
-          field: 'date',
-          headerName: 'Date',
+          field: 'count',
+          headerName: 'Count',
           flex: 1,
         },
+
         {
-          field: 'time',
-          headerName: 'Time',
+          field: 'date',
+          headerName: 'Date',
           flex: 1,
         },
       ]);
