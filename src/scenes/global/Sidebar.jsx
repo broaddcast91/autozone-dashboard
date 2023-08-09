@@ -13,6 +13,7 @@ import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import CarCrashIcon from '@mui/icons-material/CarCrash';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 // import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -185,6 +186,13 @@ const Sidebar = () => {
               title='Contact Us'
               to='/contactus'
               icon={<ContactPhoneIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title='Log Out'
+              to='/logout'
+              icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
             />

@@ -19,6 +19,9 @@ import Finance from './scenes/finance';
 import Insurance from './scenes/insurance';
 import BookAService from './scenes/bookaservice';
 import ContactUs from './scenes/contactus/contactus';
+import { Login } from '@mui/icons-material';
+import Logout from './components/Logout/Logout';
+
 // import Calendar from "./scenes/calendar/calendar";
 
 function App() {
@@ -36,6 +39,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Popup />} />
               {/* <Route path="/team" element={<Team />} /> */}
+              {/* <Route path='/login' element={<Login />} /> */}
               <Route path='/popup' element={<Popup />} />
               <Route path='/onroadprice' element={<OnRoadPrice />} />
               <Route path='/requestacall' element={<RequestCall />} />
@@ -43,6 +47,8 @@ function App() {
               <Route path='/insurance' element={<Insurance />} />
               <Route path='/bookaservice' element={<BookAService />} />
               <Route path='/contactus' element={<ContactUs />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/logout' element={<Logout />} />
             </Routes>
           </main>
         </div>
