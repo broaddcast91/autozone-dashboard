@@ -266,7 +266,7 @@ const RequestCall = () => {
             <Button
               variant='contained'
               color='primary'
-              sx={{ mr: 2, backgroundColor: '#b31b1b' }}
+              sx={{ mr: 2, backgroundColor: '#940004' }}
               onClick={handleReset}
             >
               Reset
@@ -274,7 +274,7 @@ const RequestCall = () => {
             <Button
               variant='contained'
               color='primary'
-              sx={{ backgroundColor: '#b31b1b' }}
+              sx={{ backgroundColor: '#940004' }}
               onClick={handleDup}
             >
               Duplicates Entries
@@ -282,7 +282,7 @@ const RequestCall = () => {
             <Button
               variant='contained'
               color='primary'
-              sx={{ ml: 2, backgroundColor: '#b31b1b' }}
+              sx={{ ml: 2, backgroundColor: '#940004' }}
               onClick={handleRemoveDuplicates}
             >
               Unique
@@ -294,7 +294,7 @@ const RequestCall = () => {
               onChange={(e) => setInputValue(e.target.value)}
               style={{
                 marginLeft: '16px',
-                backgroundColor: '#b31b1b',
+                backgroundColor: '#940004',
                 color: 'white',
                 borderRadius: '8px',
                 border: 'none',
@@ -314,10 +314,10 @@ const RequestCall = () => {
               borderBottom: 'none',
             },
             '& .name-column--cell': {
-              color: colors.greenAccent[300],
+              color: colors.sabooAutoColors[200],
             },
             '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: colors.blueAccent[700],
+              backgroundColor: colors.sabooAutoColors[100],
               borderBottom: 'none',
             },
             '& .MuiDataGrid-virtualScroller': {
@@ -325,7 +325,7 @@ const RequestCall = () => {
             },
             '& .MuiDataGrid-footerContainer': {
               borderTop: 'none',
-              backgroundColor: colors.blueAccent[700],
+              backgroundColor: colors.sabooAutoColors[100],
             },
             '& .MuiCheckbox-root': {
               color: `${colors.greenAccent[200]} !important`,

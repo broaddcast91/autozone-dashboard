@@ -27,32 +27,22 @@ const OnRoadPrice = () => {
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.5 },
           {
-            field: 'date',
-            headerName: 'Date',
-            flex: 1,
-          },
-          {
-            field: 'time',
-            headerName: 'Time',
-            flex: 1,
-          },
-          {
             field: 'name',
             headerName: 'Name',
             flex: 1,
             cellClassName: 'name-column--cell',
-          },
-
-          {
-            field: 'mobile',
-            headerName: 'Phone Number',
-            flex: 1,
           },
           {
             field: 'email',
             headerName: 'Email',
             flex: 1,
           },
+          {
+            field: 'mobile',
+            headerName: 'Phone Number',
+            flex: 1,
+          },
+
           {
             field: 'vehicle',
             headerName: 'Vehicle',
@@ -66,6 +56,17 @@ const OnRoadPrice = () => {
           {
             field: 'enquiry',
             headerName: 'Enquiry',
+            flex: 1,
+          },
+          {
+            field: 'date',
+            headerName: 'Date',
+            flex: 1,
+          },
+
+          {
+            field: 'time',
+            headerName: 'Time',
             flex: 1,
           },
         ]);
@@ -356,7 +357,7 @@ const OnRoadPrice = () => {
             <Button
               variant='contained'
               color='primary'
-              sx={{ mr: 2, backgroundColor: '#b31b1b' }}
+              sx={{ mr: 2, backgroundColor: '#940004' }}
               onClick={handleReset}
             >
               Reset
@@ -364,7 +365,7 @@ const OnRoadPrice = () => {
             <Button
               variant='contained'
               color='primary'
-              sx={{ backgroundColor: '#b31b1b' }}
+              sx={{ backgroundColor: '#940004' }}
               onClick={handleDup}
             >
               Duplicates Entries
@@ -372,7 +373,7 @@ const OnRoadPrice = () => {
             <Button
               variant='contained'
               color='primary'
-              sx={{ ml: 2, backgroundColor: '#b31b1b' }}
+              sx={{ ml: 2, backgroundColor: '#940004' }}
               onClick={handleRemoveDuplicates}
             >
               Unique
@@ -384,7 +385,7 @@ const OnRoadPrice = () => {
               onChange={(e) => setInputValue(e.target.value)}
               style={{
                 marginLeft: '16px',
-                backgroundColor: '#b31b1b',
+                backgroundColor: '#940004',
                 color: 'white',
                 borderRadius: '8px',
                 border: 'none',
@@ -404,10 +405,10 @@ const OnRoadPrice = () => {
               borderBottom: 'none',
             },
             '& .name-column--cell': {
-              color: colors.greenAccent[300],
+              color: colors.sabooAutoColors[200],
             },
             '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: colors.blueAccent[700],
+              backgroundColor: colors.sabooAutoColors[100],
               borderBottom: 'none',
             },
             '& .MuiDataGrid-virtualScroller': {
@@ -415,7 +416,7 @@ const OnRoadPrice = () => {
             },
             '& .MuiDataGrid-footerContainer': {
               borderTop: 'none',
-              backgroundColor: colors.blueAccent[700],
+              backgroundColor: colors.sabooAutoColors[100],
             },
             '& .MuiCheckbox-root': {
               color: `${colors.greenAccent[200]} !important`,

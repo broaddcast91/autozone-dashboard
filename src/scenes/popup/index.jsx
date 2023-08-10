@@ -1,6 +1,6 @@
 import { Box, Button, useTheme } from '@mui/material';
 // import { Box, Typography, useTheme } from "@mui/material";
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
 // import { mockDataInvoices } from "../../data/mockData";
 import Header from '../../components/Header';
@@ -219,7 +219,7 @@ const Popup = () => {
           <Button
             variant='contained'
             color='primary'
-            sx={{ mr: 2, backgroundColor: '#b31b1b' }}
+            sx={{ mr: 2, backgroundColor: '#940004' }}
             onClick={handleReset}
           >
             Reset
@@ -227,7 +227,7 @@ const Popup = () => {
           <Button
             variant='contained'
             color='primary'
-            sx={{ backgroundColor: '#b31b1b' }}
+            sx={{ backgroundColor: '#940004' }}
             onClick={handleDup}
           >
             Duplicates Entries
@@ -235,7 +235,7 @@ const Popup = () => {
           <Button
             variant='contained'
             color='primary'
-            sx={{ ml: 2, backgroundColor: '#b31b1b' }}
+            sx={{ ml: 2, backgroundColor: '#940004' }}
             onClick={handleRemoveDuplicates}
           >
             Unique
@@ -247,7 +247,7 @@ const Popup = () => {
             onChange={(e) => setInputValue(e.target.value)}
             style={{
               marginLeft: '16px',
-              backgroundColor: '#b31b1b',
+              backgroundColor: '#940004',
               color: 'white',
               borderRadius: '8px',
               border: 'none',
@@ -267,10 +267,10 @@ const Popup = () => {
             borderBottom: 'none',
           },
           '& .name-column--cell': {
-            color: colors.greenAccent[300],
+            color: colors.sabooAutoColors[200],
           },
           '& .MuiDataGrid-columnHeaders': {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.sabooAutoColors[100],
             borderBottom: 'none',
           },
           '& .MuiDataGrid-virtualScroller': {
@@ -278,10 +278,13 @@ const Popup = () => {
           },
           '& .MuiDataGrid-footerContainer': {
             borderTop: 'none',
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.sabooAutoColors[100],
           },
           '& .MuiCheckbox-root': {
             color: `${colors.greenAccent[200]} !important`,
+          },
+          '& .MuiDataGrid-toolbarContainer .MuiButton-text': {
+            color: `${colors.grey[100]} !important`,
           },
         }}
       >
@@ -290,7 +293,12 @@ const Popup = () => {
         ) : error ? (
           'Error ~ Something went wrong :)'
         ) : (
-          <DataGrid checkboxSelection rows={newData} columns={col} />
+          <DataGrid
+            rows={newData}
+            // rows={filteredData.length > 0 ? filteredData : newData}
+            columns={col}
+            components={{ Toolbar: GridToolbar }}
+          />
         )}
       </Box>
     </Box>

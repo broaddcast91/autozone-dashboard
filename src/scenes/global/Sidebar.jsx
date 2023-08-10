@@ -46,7 +46,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState('Dashboard');
 
   return (
@@ -62,10 +62,10 @@ const Sidebar = () => {
           padding: '5px 35px 5px 20px !important',
         },
         '& .pro-inner-item:hover': {
-          color: '#b31b1b !important',
+          color: '#ffd300 !important',
         },
         '& .pro-menu-item.active': {
-          color: '#b31b1b !important',
+          color: '#ffd300 !important',
         },
       }}
     >
@@ -88,7 +88,14 @@ const Sidebar = () => {
                 ml='15px'
               >
                 <Typography variant='h3' color={colors.grey[100]}>
-                  Saboo RKS
+                  {/* Saboo RKS */}
+                  <img
+                    alt='profile-user'
+                    width='100px'
+                    height='100px'
+                    src={`../../assets/sabooautozone.webp`}
+                    // style={{ cursor: 'pointer', borderRadius: '100%' }}
+                  />
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -100,13 +107,13 @@ const Sidebar = () => {
           {!isCollapsed && (
             <Box mb='25px'>
               <Box display='flex' justifyContent='center' alignItems='center'>
-                <img
+                {/* <img
                   alt='profile-user'
                   width='100px'
                   height='100px'
                   src={`../../assets/sabooautozone.webp`}
                   // style={{ cursor: 'pointer', borderRadius: '100%' }}
-                />
+                /> */}
               </Box>
               <Box textAlign='center'>
                 <Typography
