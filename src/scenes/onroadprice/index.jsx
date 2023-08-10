@@ -368,7 +368,7 @@ const OnRoadPrice = () => {
               sx={{ backgroundColor: '#940004' }}
               onClick={handleDup}
             >
-              Duplicates Entries
+              Duplicates 
             </Button>
             <Button
               variant='contained'
@@ -427,7 +427,7 @@ const OnRoadPrice = () => {
           }}
         >
           {loading ? (
-            <div>Loading</div>
+            <div>Processing, please wait...</div>
           ) : error ? (
             'Error ~ Something went wrong :)'
           ) : (

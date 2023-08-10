@@ -230,7 +230,7 @@ const Popup = () => {
             sx={{ backgroundColor: '#940004' }}
             onClick={handleDup}
           >
-            Duplicates Entries
+            Duplicates
           </Button>
           <Button
             variant='contained'
@@ -289,7 +289,7 @@ const Popup = () => {
         }}
       >
         {loading ? (
-          <div>Processing, please wait</div>
+          <div>Processing, please wait...</div>
         ) : error ? (
           'Error ~ Something went wrong :)'
         ) : (

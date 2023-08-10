@@ -312,7 +312,7 @@ const ContactUs = () => {
               sx={{ backgroundColor: '#940004' }}
               onClick={handleDup}
             >
-              Duplicates Entries
+              Duplicates
             </Button>
             <Button
               variant='contained'
