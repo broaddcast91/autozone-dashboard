@@ -6,6 +6,7 @@ import { tokens } from '../../theme';
 import Header from '../../components/Header';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import LooksOneIcon from '@mui/icons-material/LooksOne';
 
 const Popup = () => {
   const [loading, setLoading] = useState(false);
@@ -28,15 +29,15 @@ const Popup = () => {
             headerName: 'Phone Number',
             flex: 1,
           },
+          {
+            field: 'date',
+            headerName: 'Date',
+            flex: 1,
+          },
 
           {
             field: 'time',
             headerName: 'Time',
-            flex: 1,
-          },
-          {
-            field: 'date',
-            headerName: 'Date',
             flex: 1,
           },
         ]);
@@ -54,11 +55,11 @@ const Popup = () => {
     return { ...item, id: index + 1 };
   });
 
-  async function fetchData() {
+  async function fetchData(newInputValue) {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/getpopups?date=${inputValue}`
+        `https://autozone-8azp.onrender.com/getpopups?date=${newInputValue}`
       );
       setCol([
         { field: 'id', headerName: 'ID' },
@@ -86,9 +87,8 @@ const Popup = () => {
       setLoading(false);
     }
   }
-  const handleRemoveDuplicates = () => {
-    if (inputValue === '') alert('Please select the date');
-    else fetchData();
+  const handleRemoveDuplicates = (newInputValue) => {
+    fetchData(newInputValue);
   };
   const handleReset = async () => {
     try {
@@ -154,6 +154,38 @@ const Popup = () => {
     }
   };
 
+  const uniqueEntries = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `https://autozone-8azp.onrender.com/popUpUniqueEntries`
+      );
+      setCol([
+        { field: 'id', headerName: 'ID' },
+        {
+          field: 'number',
+          headerName: 'Phone Number',
+          flex: 1,
+        },
+        {
+          field: 'time',
+          headerName: 'Time',
+          flex: 1,
+        },
+        {
+          field: 'date',
+          headerName: 'Date',
+          flex: 1,
+        },
+      ]);
+      setData(res.data.data);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
+
   // const handleDup = async () => {
   //   try {
   //     setLoading(true);
@@ -213,7 +245,12 @@ const Popup = () => {
 
   return (
     <Box m='20px'>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
         <Header title='Popup' subtitle='List of Popup Enquiries' />
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button
@@ -232,7 +269,40 @@ const Popup = () => {
           >
             Duplicates
           </Button>
+
+          <input
+            type='date'
+            required
+            sx={{ mr: 2, backgroundColor: '#940004' }}
+            value={inputValue}
+            onChange={(e) => {
+              const newInputValue = e.target.value;
+              console.log('New input value:', newInputValue);
+              setInputValue(newInputValue);
+              handleRemoveDuplicates(newInputValue);
+            }}
+            style={{
+              backgroundColor: '#940004',
+              color: 'white',
+              borderRadius: '6px',
+              border: 'none',
+              padding: '6px',
+              margin: '15px', // Add margin to separate input and button
+              flex: 1,
+              // Allow the input to grow to fill available space
+            }}
+          />
           <Button
+            variant='contained'
+            color='primary'
+            sx={{ backgroundColor: '#940004' }}
+            onClick={uniqueEntries}
+          >
+            {' '}
+            <LooksOneIcon />
+          </Button>
+
+          {/* <Button
             variant='contained'
             color='primary'
             sx={{ ml: 2, backgroundColor: '#940004' }}
@@ -253,7 +323,7 @@ const Popup = () => {
               border: 'none',
               padding: '8px',
             }}
-          />
+          /> */}
         </div>
       </div>
       <Box

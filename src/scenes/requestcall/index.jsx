@@ -2,6 +2,7 @@ import { Box, Button } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
 // import { mockDataContacts } from "../../data/mockData";
+import LooksOneIcon from '@mui/icons-material/LooksOne';
 import Header from '../../components/Header';
 import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -67,11 +68,11 @@ const RequestCall = () => {
     return { ...item, id: index + 1 };
   });
 
-  async function fetchData() {
+  async function fetchData(newInputValue) {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/getCallbacks?date=${inputValue}`
+        `https://autozone-8azp.onrender.com/getCallbacks?date=${newInputValue}`
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -109,9 +110,10 @@ const RequestCall = () => {
       setLoading(false);
     }
   }
-  const handleRemoveDuplicates = () => {
-    if (inputValue === '') alert('Please select the date');
-    else fetchData();
+  const handleRemoveDuplicates = (newInputValue) => {
+    //if (inputValue === '') alert('Please select the date');
+    // else
+    fetchData(newInputValue);
   };
   const handleReset = async () => {
     try {
@@ -201,6 +203,49 @@ const RequestCall = () => {
       setLoading(false);
     }
   };
+  const uniqueEntries = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `https://autozone-8azp.onrender.com/callBacksUniqueEntries`
+      );
+      setCol([
+        { field: 'id', headerName: 'ID', flex: 0.5 },
+        {
+          field: 'name',
+          headerName: 'Name',
+          flex: 1,
+          cellClassName: 'name-column--cell',
+        },
+        {
+          field: 'email',
+          headerName: 'Email',
+          flex: 1,
+        },
+        {
+          field: 'mobile',
+          headerName: 'Phone Number',
+          flex: 1,
+        },
+        {
+          field: 'date',
+          headerName: 'Date',
+          flex: 1,
+        },
+        {
+          field: 'time',
+          headerName: 'Time',
+          flex: 1,
+        },
+      ]);
+      setData(res.data.data);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
+
   // const columns = [
   //   { field: 'id', headerName: 'ID', flex: 0.5 },
   //   // { field: "registrarId", headerName: "Registrar ID" },
@@ -279,28 +324,37 @@ const RequestCall = () => {
             >
               Duplicates
             </Button>
-            <Button
-              variant='contained'
-              color='primary'
-              sx={{ ml: 2, backgroundColor: '#940004' }}
-              onClick={handleRemoveDuplicates}
-            >
-              Unique
-            </Button>
             <input
               type='date'
               required
+              sx={{ mr: 2, backgroundColor: '#940004' }}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => {
+                const newInputValue = e.target.value;
+                console.log('New input value:', newInputValue);
+                setInputValue(newInputValue);
+                handleRemoveDuplicates(newInputValue);
+              }}
               style={{
-                marginLeft: '16px',
                 backgroundColor: '#940004',
                 color: 'white',
-                borderRadius: '8px',
+                borderRadius: '6px',
                 border: 'none',
-                padding: '8px',
+                padding: '6px',
+                margin: '15px', // Add margin to separate input and button
+                flex: 1,
+                // Allow the input to grow to fill available space
               }}
             />
+            <Button
+              variant='contained'
+              color='primary'
+              sx={{ backgroundColor: '#940004' }}
+              onClick={uniqueEntries}
+            >
+              {' '}
+              <LooksOneIcon />
+            </Button>
           </div>
         </div>
         <Box
