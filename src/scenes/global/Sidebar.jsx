@@ -124,8 +124,8 @@ const Sidebar = () => {
                 >
                   AUTOZONE
                 </Typography>
-                <Typography variant='h5' color={colors.greenAccent[500]}>
-                  saboo rks group
+                <Typography variant='h6' color={colors.greenAccent[500]}>
+                  By Saboo RKS Group
                 </Typography>
               </Box>
             </Box>
