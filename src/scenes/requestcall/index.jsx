@@ -8,6 +8,12 @@ import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+//import date range picker files
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+
 const RequestCall = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -15,8 +21,11 @@ const RequestCall = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+
   const [col, setCol] = useState([]);
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -68,11 +77,27 @@ const RequestCall = () => {
     return { ...item, id: index + 1 };
   });
 
-  async function fetchData(newInputValue) {
+  async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://autozone-8azp.onrender.com/getCallbacks?date=${newInputValue}`
+      const formattedStartDate = new Date(startDate);
+      formattedStartDate.setDate(formattedStartDate.getDate() + 1);
+      const formattedStartDateString = formattedStartDate
+        .toISOString()
+        .slice(0, 10);
+
+      const formattedEndDate = new Date(endDate);
+      formattedEndDate.setDate(formattedEndDate.getDate() + 1);
+      const formattedEndDateString = formattedEndDate
+        .toISOString()
+        .slice(0, 10);
+
+      const res = await axios.post(
+        'https://autozone-8azp.onrender.com/callBackRange',
+        {
+          startDate: formattedStartDateString,
+          endDate: formattedEndDateString,
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -110,11 +135,13 @@ const RequestCall = () => {
       setLoading(false);
     }
   }
-  const handleRemoveDuplicates = (newInputValue) => {
-    //if (inputValue === '') alert('Please select the date');
-    // else
-    fetchData(newInputValue);
-  };
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchUniqueValues(startDate, endDate);
+    }
+  }, [startDate, endDate]);
+
   const handleReset = async () => {
     try {
       setLoading(true);
@@ -151,7 +178,7 @@ const RequestCall = () => {
         },
       ]);
       setData(res.data.data);
-      setInputValue('');
+
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -308,6 +335,55 @@ const RequestCall = () => {
             subtitle='List of Callback for Future Reference'
           />
           <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ marginRight: '10px' }}>
+              {' '}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer
+                  components={['DateRangePicker']}
+                  sx={{ padding: '6px', backgroundColor: 'transparent' }}
+                >
+                  <DateRangePicker
+                    localeText={{
+                      start: (
+                        <span style={{ fontSize: '16px', padding: '2px' }}>
+                          Start Date
+                        </span>
+                      ),
+                      end: (
+                        <span style={{ fontSize: '16px', padding: '2px' }}>
+                          End Date
+                        </span>
+                      ),
+                    }}
+                    start={startDate}
+                    end={endDate}
+                    onChange={(newValue) => {
+                      setStartDate(newValue[0]);
+                      setEndDate(newValue[1]);
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+
+            <Button
+              variant='contained'
+              color='primary'
+              sx={{ backgroundColor: '#940004', mr: 2 }}
+              onClick={handleDup}
+            >
+              Duplicates
+            </Button>
+
+            <Button
+              variant='contained'
+              color='primary'
+              sx={{ mr: 2, backgroundColor: '#940004' }}
+              onClick={uniqueEntries}
+            >
+              {' '}
+              <LooksOneIcon />
+            </Button>
             <Button
               variant='contained'
               color='primary'
@@ -315,45 +391,6 @@ const RequestCall = () => {
               onClick={handleReset}
             >
               Reset
-            </Button>
-            <Button
-              variant='contained'
-              color='primary'
-              sx={{ backgroundColor: '#940004' }}
-              onClick={handleDup}
-            >
-              Duplicates
-            </Button>
-            <input
-              type='date'
-              required
-              sx={{ mr: 2, backgroundColor: '#940004' }}
-              value={inputValue}
-              onChange={(e) => {
-                const newInputValue = e.target.value;
-                console.log('New input value:', newInputValue);
-                setInputValue(newInputValue);
-                handleRemoveDuplicates(newInputValue);
-              }}
-              style={{
-                backgroundColor: '#940004',
-                color: 'white',
-                borderRadius: '6px',
-                border: 'none',
-                padding: '6px',
-                margin: '15px', // Add margin to separate input and button
-                flex: 1,
-                // Allow the input to grow to fill available space
-              }}
-            />
-            <Button
-              variant='contained'
-              color='primary'
-              sx={{ backgroundColor: '#940004' }}
-              onClick={uniqueEntries}
-            >
-              {' '}
-              <LooksOneIcon />
             </Button>
           </div>
         </div>
@@ -371,7 +408,7 @@ const RequestCall = () => {
               color: colors.sabooAutoColors[200],
             },
             '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: colors.sabooAutoColors[100],
+              backgroundColor: colors.sabooAutoColors[300],
               borderBottom: 'none',
             },
             '& .MuiDataGrid-virtualScroller': {
@@ -379,7 +416,7 @@ const RequestCall = () => {
             },
             '& .MuiDataGrid-footerContainer': {
               borderTop: 'none',
-              backgroundColor: colors.sabooAutoColors[100],
+              backgroundColor: colors.sabooAutoColors[300],
             },
             '& .MuiCheckbox-root': {
               color: `${colors.greenAccent[200]} !important`,

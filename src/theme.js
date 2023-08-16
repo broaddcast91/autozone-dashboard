@@ -63,6 +63,7 @@ export const tokens = (mode) => ({
         sabooAutoColors: {
           100: '#750000',
           200: '#ffd300',
+          300: '#a37474',
         },
       }
     : {

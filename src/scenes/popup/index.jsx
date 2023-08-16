@@ -1,19 +1,24 @@
 import { Box, Button, useTheme } from '@mui/material';
-// import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
-// import { mockDataInvoices } from "../../data/mockData";
 import Header from '../../components/Header';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import LooksOneIcon from '@mui/icons-material/LooksOne';
 
+//import date range picker files
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+
 const Popup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-  const [inputValue, setInputValue] = useState('');
   const [col, setCol] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -27,11 +32,6 @@ const Popup = () => {
           {
             field: 'number',
             headerName: 'Phone Number',
-            flex: 1,
-          },
-          {
-            field: 'date',
-            headerName: 'Date',
             flex: 1,
           },
 
@@ -55,11 +55,29 @@ const Popup = () => {
     return { ...item, id: index + 1 };
   });
 
-  async function fetchData(newInputValue) {
+  //date range unique function
+
+  async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://autozone-8azp.onrender.com/getpopups?date=${newInputValue}`
+      const formattedStartDate = new Date(startDate);
+      formattedStartDate.setDate(formattedStartDate.getDate() + 1);
+      const formattedStartDateString = formattedStartDate
+        .toISOString()
+        .slice(0, 10);
+
+      const formattedEndDate = new Date(endDate);
+      formattedEndDate.setDate(formattedEndDate.getDate() + 1);
+      const formattedEndDateString = formattedEndDate
+        .toISOString()
+        .slice(0, 10);
+
+      const res = await axios.post(
+        'https://autozone-8azp.onrender.com/popUpRangeData',
+        {
+          startDate: formattedStartDateString,
+          endDate: formattedEndDateString,
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID' },
@@ -68,7 +86,6 @@ const Popup = () => {
           headerName: 'Phone Number',
           flex: 1,
         },
-
         {
           field: 'time',
           headerName: 'Time',
@@ -87,15 +104,57 @@ const Popup = () => {
       setLoading(false);
     }
   }
-  const handleRemoveDuplicates = (newInputValue) => {
-    fetchData(newInputValue);
-  };
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchUniqueValues(startDate, endDate);
+    }
+  }, [startDate, endDate]);
+
+  //   try {
+  //     setLoading(true);
+  //     const res = await axios.get(
+  //       `https://autozone-8azp.onrender.com/getpopups?date=${newInputValue}`
+  //     );
+  //     setCol([
+  //       { field: 'id', headerName: 'ID' },
+  //       {
+  //         field: 'number',
+  //         headerName: 'Phone Number',
+  //         flex: 1,
+  //       },
+
+  //       {
+  //         field: 'time',
+  //         headerName: 'Time',
+  //         flex: 1,
+  //       },
+  //       {
+  //         field: 'date',
+  //         headerName: 'Date',
+  //         flex: 1,
+  //       },
+  //     ]);
+  //     setData(res.data.data);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     setError(err);
+  //     setLoading(false);
+  //   }
+  // }
+  // const handleRemoveDuplicates = (newInputValue) => {
+  //   fetchData(newInputValue);
+  // };
   const handleReset = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
         'https://autozone-8azp.onrender.com/getpopups'
       );
+
+      setStartDate(null);
+      setEndDate(null);
+
       setCol([
         { field: 'id', headerName: 'ID' },
         {
@@ -116,7 +175,7 @@ const Popup = () => {
         },
       ]);
       setData(res.data.data);
-      setInputValue('');
+
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -186,62 +245,8 @@ const Popup = () => {
     }
   };
 
-  // const handleDup = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await axios.get(
-  //       'https://eurokids.onrender.com/dupilicatepopups'
-  //     );
-  //     setData(res.data.data);
-  //     // setInputValue('');
-  //     // setLoading(false);
-  //   } catch (err) {
-  //     setError(err);
-  //     setLoading(false);
-  //   }
-  // };
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // const columns = [
-  //   { field: 'id', headerName: 'ID' },
-  //   // {
-  //   //   field: "name",
-  //   //   headerName: "Name",
-  //   //   flex: 1,
-  //   //   cellClassName: "name-column--cell",
-  //   // },
-  //   {
-  //     field: 'mobile',
-  //     headerName: 'Phone Number',
-  //     flex: 1,
-  //   },
-  //   // {
-  //   //   field: "email",
-  //   //   headerName: "Email",
-  //   //   flex: 1,
-  //   // },
-  //   // {
-  //   //   field: "cost",
-  //   //   headerName: "Cost",
-  //   //   flex: 1,
-  //   //   renderCell: (params) => (
-  //   //     <Typography color={colors.greenAccent[500]}>
-  //   //       ${params.row.cost}
-  //   //     </Typography>
-  //   //   ),
-  //   // },
-  //   {
-  //     field: 'time',
-  //     headerName: 'Time',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'date',
-  //     headerName: 'Date',
-  //     flex: 1,
-  //   },
-  // ];
 
   return (
     <Box m='20px'>
@@ -253,24 +258,47 @@ const Popup = () => {
       >
         <Header title='Popup' subtitle='List of Popup Enquiries' />
         <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ marginRight: '10px' }}>
+            {' '}
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer
+                components={['DateRangePicker']}
+                sx={{ padding: '6px', backgroundColor: 'transparent' }}
+              >
+                <DateRangePicker
+                  localeText={{
+                    start: (
+                      <span style={{ fontSize: '16px', padding: '2px' }}>
+                        Start Date
+                      </span>
+                    ),
+                    end: (
+                      <span style={{ fontSize: '16px', padding: '2px' }}>
+                        End Date
+                      </span>
+                    ),
+                  }}
+                  start={startDate}
+                  end={endDate}
+                  onChange={(newValue) => {
+                    setStartDate(newValue[0]);
+                    setEndDate(newValue[1]);
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </div>
+
           <Button
             variant='contained'
             color='primary'
-            sx={{ mr: 2, backgroundColor: '#940004' }}
-            onClick={handleReset}
-          >
-            Reset
-          </Button>
-          <Button
-            variant='contained'
-            color='primary'
-            sx={{ backgroundColor: '#940004' }}
+            sx={{ backgroundColor: '#940004', mr: 2 }}
             onClick={handleDup}
           >
             Duplicates
           </Button>
 
-          <input
+          {/* <input
             type='date'
             required
             sx={{ mr: 2, backgroundColor: '#940004' }}
@@ -291,17 +319,25 @@ const Popup = () => {
               flex: 1,
               // Allow the input to grow to fill available space
             }}
-          />
+          /> */}
+
           <Button
             variant='contained'
             color='primary'
-            sx={{ backgroundColor: '#940004' }}
+            sx={{ mr: 2, backgroundColor: '#940004' }}
             onClick={uniqueEntries}
           >
             {' '}
             <LooksOneIcon />
           </Button>
-
+          <Button
+            variant='contained'
+            color='primary'
+            sx={{ backgroundColor: '#940004' }}
+            onClick={handleReset}
+          >
+            Reset
+          </Button>
           {/* <Button
             variant='contained'
             color='primary'
@@ -340,7 +376,7 @@ const Popup = () => {
             color: colors.sabooAutoColors[200],
           },
           '& .MuiDataGrid-columnHeaders': {
-            backgroundColor: colors.sabooAutoColors[100],
+            backgroundColor: colors.sabooAutoColors[300],
             borderBottom: 'none',
           },
           '& .MuiDataGrid-virtualScroller': {
@@ -348,7 +384,7 @@ const Popup = () => {
           },
           '& .MuiDataGrid-footerContainer': {
             borderTop: 'none',
-            backgroundColor: colors.sabooAutoColors[100],
+            backgroundColor: colors.sabooAutoColors[300],
           },
           '& .MuiCheckbox-root': {
             color: `${colors.greenAccent[200]} !important`,

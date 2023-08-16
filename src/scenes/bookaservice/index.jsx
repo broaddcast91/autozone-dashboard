@@ -1,12 +1,18 @@
 import { Box, Button } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
-// import { mockDataContacts } from "../../data/mockData";
+
 import LooksOneIcon from '@mui/icons-material/LooksOne';
 import Header from '../../components/Header';
 import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+//import date range picker files
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 
 const BookAService = () => {
   const theme = useTheme();
@@ -15,7 +21,9 @@ const BookAService = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
   const [col, setCol] = useState([]);
 
   useEffect(() => {
@@ -84,11 +92,29 @@ const BookAService = () => {
     return { ...item, id: index + 1 };
   });
 
-  async function fetchData(newInputValue) {
+  //date range unique function
+
+  async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://autozone-8azp.onrender.com/getService?date=${newInputValue}`
+      const formattedStartDate = new Date(startDate);
+      formattedStartDate.setDate(formattedStartDate.getDate() + 1);
+      const formattedStartDateString = formattedStartDate
+        .toISOString()
+        .slice(0, 10);
+
+      const formattedEndDate = new Date(endDate);
+      formattedEndDate.setDate(formattedEndDate.getDate() + 1);
+      const formattedEndDateString = formattedEndDate
+        .toISOString()
+        .slice(0, 10);
+
+      const res = await axios.post(
+        'https://autozone-8azp.onrender.com/serviceRangeData',
+        {
+          startDate: formattedStartDateString,
+          endDate: formattedEndDateString,
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -142,11 +168,12 @@ const BookAService = () => {
       setLoading(false);
     }
   }
-  const handleRemoveDuplicates = (newInputValue) => {
-    //if (inputValue === '') alert('Please select the date');
-    //else
-    fetchData(newInputValue);
-  };
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchUniqueValues(startDate, endDate);
+    }
+  }, [startDate, endDate]);
   const handleReset = async () => {
     try {
       setLoading(true);
@@ -199,7 +226,7 @@ const BookAService = () => {
         },
       ]);
       setData(res.data.data);
-      setInputValue('');
+
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -301,91 +328,6 @@ const BookAService = () => {
       setLoading(false);
     }
   };
-  // const handleDup = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await axios.get(
-  //       'https://eurokids.onrender.com/dupilicateEnquiries'
-  //     );
-
-  //     setCol([
-  //       { field: 'id', headerName: 'ID', flex: 0.5 },
-  //       {
-  //         field: 'date',
-  //         headerName: 'Date',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'phoneNumber',
-  //         headerName: 'Phone Number',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'count',
-  //         headerName: 'Count',
-  //         flex: 1,
-  //       },
-  //     ]);
-  //     setData(res.data.data);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     setError(err);
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const columns = [
-  //   { field: 'id', headerName: 'ID', flex: 0.5 },
-  //   // { field: "registrarId", headerName: "Registrar ID" },
-  //   {
-  //     field: 'name',
-  //     headerName: 'Name',
-  //     flex: 1,
-  //     cellClassName: 'name-column--cell',
-  //   },
-  //   // {
-  //   //   field: "age",
-  //   //   headerName: "Age",
-  //   //   type: "number",
-  //   //   headerAlign: "left",
-  //   //   align: "left",
-  //   // },
-  //   {
-  //     field: 'mobile',
-  //     headerName: 'Phone Number',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'email',
-  //     headerName: 'Email',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'program',
-  //     headerName: 'Program',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'date',
-  //     headerName: 'Date',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'time',
-  //     headerName: 'Time',
-  //     flex: 1,
-  //   },
-  //   // {
-  //   //   field: "city",
-  //   //   headerName: "City",
-  //   //   flex: 1,
-  //   // },
-  //   // {
-  //   //   field: "zipCode",
-  //   //   headerName: "Zip Code",
-  //   //   flex: 1,
-  //   // },
-  // ];
 
   return (
     <>
@@ -396,6 +338,55 @@ const BookAService = () => {
             subtitle='List of Vehicle Service requests for Future Reference'
           />
           <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ marginRight: '10px' }}>
+              {' '}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer
+                  components={['DateRangePicker']}
+                  sx={{ padding: '6px', backgroundColor: 'transparent' }}
+                >
+                  <DateRangePicker
+                    localeText={{
+                      start: (
+                        <span style={{ fontSize: '16px', padding: '2px' }}>
+                          Start Date
+                        </span>
+                      ),
+                      end: (
+                        <span style={{ fontSize: '16px', padding: '2px' }}>
+                          End Date
+                        </span>
+                      ),
+                    }}
+                    start={startDate}
+                    end={endDate}
+                    onChange={(newValue) => {
+                      setStartDate(newValue[0]);
+                      setEndDate(newValue[1]);
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+
+            <Button
+              variant='contained'
+              color='primary'
+              sx={{ mr: 2, backgroundColor: '#940004' }}
+              onClick={handleDup}
+            >
+              Duplicates
+            </Button>
+
+            <Button
+              variant='contained'
+              color='primary'
+              sx={{ mr: 2, backgroundColor: '#940004' }}
+              onClick={uniqueEntries}
+            >
+              {' '}
+              <LooksOneIcon />
+            </Button>
             <Button
               variant='contained'
               color='primary'
@@ -404,95 +395,7 @@ const BookAService = () => {
             >
               Reset
             </Button>
-            <Button
-              variant='contained'
-              color='primary'
-              sx={{ backgroundColor: '#940004' }}
-              onClick={handleDup}
-            >
-              Duplicates
-            </Button>
-            <input
-              type='date'
-              required
-              sx={{ mr: 2, backgroundColor: '#940004' }}
-              value={inputValue}
-              onChange={(e) => {
-                const newInputValue = e.target.value;
-                console.log('New input value:', newInputValue);
-                setInputValue(newInputValue);
-                handleRemoveDuplicates(newInputValue);
-              }}
-              style={{
-                backgroundColor: '#940004',
-                color: 'white',
-                borderRadius: '6px',
-                border: 'none',
-                padding: '6px',
-                margin: '15px', // Add margin to separate input and button
-                flex: 1,
-                // Allow the input to grow to fill available space
-              }}
-            />
-            <Button
-              variant='contained'
-              color='primary'
-              sx={{ backgroundColor: '#940004' }}
-              onClick={uniqueEntries}
-            >
-              {' '}
-              <LooksOneIcon />
-            </Button>
           </div>
-          {/* <div style={{ display: 'flex' }}>
-            <div>
-              <Button
-                variant='contained'
-                color='primary'
-                sx={{ mr: 4, mb: 5 }}
-                style={{ backgroundColor: '#3a3e4d' }}
-                onClick={handleReset}
-              >
-                Reset
-              </Button>
-              <Button
-                variant='contained'
-                color='primary'
-                sx={{ mr: 4, mb: 5 }}
-                style={{ backgroundColor: '#3a3e4d' }}
-                onClick={handleDup}
-              >
-                Duplicates Entries
-              </Button>
-            </div>
-            <div>
-              <Button
-                variant='contained'
-                color='primary'
-                sx={{ mb: 2 }}
-                style={{ backgroundColor: '#b31b1b' }}
-                onClick={handleRemoveDuplicates}
-              >
-                Unique
-              </Button>
-              <div>
-                <input
-                  type='date'
-                  required
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  style={{
-                    marginRight: '16px',
-                    backgroundColor: '#3a3e4d',
-                    color: 'white',
-                    borderRadius: '8px',
-                    border: 'none',
-                    padding: '8px',
-                  }}
-                />
-              </div>
-            </div>
-          </div> */}
         </div>
         <Box
           m='40px 0 0 0'
@@ -508,7 +411,7 @@ const BookAService = () => {
               color: colors.sabooAutoColors[200],
             },
             '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: colors.sabooAutoColors[100],
+              backgroundColor: colors.sabooAutoColors[300],
               borderBottom: 'none',
             },
             '& .MuiDataGrid-virtualScroller': {
@@ -516,7 +419,7 @@ const BookAService = () => {
             },
             '& .MuiDataGrid-footerContainer': {
               borderTop: 'none',
-              backgroundColor: colors.sabooAutoColors[100],
+              backgroundColor: colors.sabooAutoColors[300],
             },
             '& .MuiCheckbox-root': {
               color: `${colors.greenAccent[200]} !important`,

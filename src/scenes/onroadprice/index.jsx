@@ -8,6 +8,12 @@ import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+//import date range picker files
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+
 const OnRoadPrice = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -15,8 +21,10 @@ const OnRoadPrice = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+
   const [col, setCol] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -85,41 +93,49 @@ const OnRoadPrice = () => {
     return { ...item, id: index + 1 };
   });
 
-  async function fetchData(newInputValue) {
+  //date range unique function
+
+  async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://autozone-8azp.onrender.com/getOnRoadPrice?date=${newInputValue}`
+      const formattedStartDate = new Date(startDate);
+      formattedStartDate.setDate(formattedStartDate.getDate() + 1);
+      const formattedStartDateString = formattedStartDate
+        .toISOString()
+        .slice(0, 10);
+
+      const formattedEndDate = new Date(endDate);
+      formattedEndDate.setDate(formattedEndDate.getDate() + 1);
+      const formattedEndDateString = formattedEndDate
+        .toISOString()
+        .slice(0, 10);
+
+      const res = await axios.post(
+        'https://autozone-8azp.onrender.com/onRoadPriceRange',
+        {
+          startDate: formattedStartDateString,
+          endDate: formattedEndDateString,
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
-        {
-          field: 'date',
-          headerName: 'Date',
-          flex: 1,
-        },
-        {
-          field: 'time',
-          headerName: 'Time',
-          flex: 1,
-        },
         {
           field: 'name',
           headerName: 'Name',
           flex: 1,
           cellClassName: 'name-column--cell',
         },
-
-        {
-          field: 'mobile',
-          headerName: 'Phone Number',
-          flex: 1,
-        },
         {
           field: 'email',
           headerName: 'Email',
           flex: 1,
         },
+        {
+          field: 'mobile',
+          headerName: 'Phone Number',
+          flex: 1,
+        },
+
         {
           field: 'vehicle',
           headerName: 'Vehicle',
@@ -133,6 +149,17 @@ const OnRoadPrice = () => {
         {
           field: 'enquiry',
           headerName: 'Enquiry',
+          flex: 1,
+        },
+        {
+          field: 'date',
+          headerName: 'Date',
+          flex: 1,
+        },
+
+        {
+          field: 'time',
+          headerName: 'Time',
           flex: 1,
         },
       ]);
@@ -143,11 +170,76 @@ const OnRoadPrice = () => {
       setLoading(false);
     }
   }
-  const handleRemoveDuplicates = (newInputValue) => {
-    //if (inputValue === '') alert('Please select the date');
-    //else
-    fetchData(newInputValue);
-  };
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchUniqueValues(startDate, endDate);
+    }
+  }, [startDate, endDate]);
+
+  // async function fetchData(newInputValue) {
+  //   try {
+  //     setLoading(true);
+  //     const res = await axios.get(
+  //       `https://autozone-8azp.onrender.com/getOnRoadPrice?date=${newInputValue}`
+  //     );
+  //     setCol([
+  //       { field: 'id', headerName: 'ID', flex: 0.5 },
+  //       {
+  //         field: 'date',
+  //         headerName: 'Date',
+  //         flex: 1,
+  //       },
+  //       {
+  //         field: 'time',
+  //         headerName: 'Time',
+  //         flex: 1,
+  //       },
+  //       {
+  //         field: 'name',
+  //         headerName: 'Name',
+  //         flex: 1,
+  //         cellClassName: 'name-column--cell',
+  //       },
+
+  //       {
+  //         field: 'mobile',
+  //         headerName: 'Phone Number',
+  //         flex: 1,
+  //       },
+  //       {
+  //         field: 'email',
+  //         headerName: 'Email',
+  //         flex: 1,
+  //       },
+  //       {
+  //         field: 'vehicle',
+  //         headerName: 'Vehicle',
+  //         flex: 1,
+  //       },
+  //       {
+  //         field: 'outlet',
+  //         headerName: 'Outlet',
+  //         flex: 1,
+  //       },
+  //       {
+  //         field: 'enquiry',
+  //         headerName: 'Enquiry',
+  //         flex: 1,
+  //       },
+  //     ]);
+  //     setData(res.data.data);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     setError(err);
+  //     setLoading(false);
+  //   }
+  // }
+  // const handleRemoveDuplicates = (newInputValue) => {
+  //   //if (inputValue === '') alert('Please select the date');
+  //   //else
+  //   fetchData(newInputValue);
+  // };
   const handleReset = async () => {
     try {
       setLoading(true);
@@ -156,16 +248,6 @@ const OnRoadPrice = () => {
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
-        {
-          field: 'date',
-          headerName: 'Date',
-          flex: 1,
-        },
-        {
-          field: 'time',
-          headerName: 'Time',
-          flex: 1,
-        },
         {
           field: 'name',
           headerName: 'Name',
@@ -198,9 +280,19 @@ const OnRoadPrice = () => {
           headerName: 'Enquiry',
           flex: 1,
         },
+        {
+          field: 'date',
+          headerName: 'Date',
+          flex: 1,
+        },
+        {
+          field: 'time',
+          headerName: 'Time',
+          flex: 1,
+        },
       ]);
       setData(res.data.data);
-      setInputValue('');
+
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -252,16 +344,7 @@ const OnRoadPrice = () => {
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
-        {
-          field: 'date',
-          headerName: 'Date',
-          flex: 1,
-        },
-        {
-          field: 'time',
-          headerName: 'Time',
-          flex: 1,
-        },
+
         {
           field: 'name',
           headerName: 'Name',
@@ -292,6 +375,16 @@ const OnRoadPrice = () => {
         {
           field: 'enquiry',
           headerName: 'Enquiry',
+          flex: 1,
+        },
+        {
+          field: 'date',
+          headerName: 'Date',
+          flex: 1,
+        },
+        {
+          field: 'time',
+          headerName: 'Time',
           flex: 1,
         },
       ]);
@@ -413,24 +506,63 @@ const OnRoadPrice = () => {
             </div>
           </div> */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ marginRight: '10px' }}>
+              {' '}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer
+                  components={['DateRangePicker']}
+                  sx={{ padding: '6px', backgroundColor: 'transparent' }}
+                >
+                  <DateRangePicker
+                    localeText={{
+                      start: (
+                        <span style={{ fontSize: '16px', padding: '2px' }}>
+                          Start Date
+                        </span>
+                      ),
+                      end: (
+                        <span style={{ fontSize: '16px', padding: '2px' }}>
+                          End Date
+                        </span>
+                      ),
+                    }}
+                    start={startDate}
+                    end={endDate}
+                    onChange={(newValue) => {
+                      setStartDate(newValue[0]);
+                      setEndDate(newValue[1]);
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+
+            <Button
+              variant='contained'
+              color='primary'
+              sx={{ backgroundColor: '#940004', mr: 2 }}
+              onClick={handleDup}
+            >
+              Duplicates
+            </Button>
             <Button
               variant='contained'
               color='primary'
               sx={{ mr: 2, backgroundColor: '#940004' }}
-              onClick={handleReset}
+              onClick={uniqueEntries}
             >
-              Reset
+              {' '}
+              <LooksOneIcon />
             </Button>
             <Button
               variant='contained'
               color='primary'
               sx={{ backgroundColor: '#940004' }}
-              onClick={handleDup}
+              onClick={handleReset}
             >
-              Duplicates
+              Reset
             </Button>
-
-            <input
+            {/* <input
               type='date'
               required
               sx={{ mr: 2, backgroundColor: '#940004' }}
@@ -451,16 +583,7 @@ const OnRoadPrice = () => {
                 flex: 1,
                 // Allow the input to grow to fill available space
               }}
-            />
-            <Button
-              variant='contained'
-              color='primary'
-              sx={{ backgroundColor: '#940004' }}
-              onClick={uniqueEntries}
-            >
-              {' '}
-              <LooksOneIcon />
-            </Button>
+            /> */}
           </div>
         </div>
         <Box
@@ -477,7 +600,7 @@ const OnRoadPrice = () => {
               color: colors.sabooAutoColors[200],
             },
             '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: colors.sabooAutoColors[100],
+              backgroundColor: colors.sabooAutoColors[300],
               borderBottom: 'none',
             },
             '& .MuiDataGrid-virtualScroller': {
@@ -485,7 +608,7 @@ const OnRoadPrice = () => {
             },
             '& .MuiDataGrid-footerContainer': {
               borderTop: 'none',
-              backgroundColor: colors.sabooAutoColors[100],
+              backgroundColor: colors.sabooAutoColors[300],
             },
             '& .MuiCheckbox-root': {
               color: `${colors.greenAccent[200]} !important`,
