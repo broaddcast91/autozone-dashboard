@@ -36,6 +36,12 @@ const Popup = () => {
           },
 
           {
+            field: 'date',
+            headerName: 'Date',
+            flex: 1,
+          },
+
+          {
             field: 'time',
             headerName: 'Time',
             flex: 1,
@@ -162,17 +168,17 @@ const Popup = () => {
           headerName: 'Phone Number',
           flex: 1,
         },
-
-        {
-          field: 'time',
-          headerName: 'Time',
-          flex: 1,
-        },
         {
           field: 'date',
           headerName: 'Date',
           flex: 1,
         },
+        {
+          field: 'time',
+          headerName: 'Time',
+          flex: 1,
+        },
+       
       ]);
       setData(res.data.data);
 
@@ -226,16 +232,18 @@ const Popup = () => {
           headerName: 'Phone Number',
           flex: 1,
         },
-        {
-          field: 'time',
-          headerName: 'Time',
-          flex: 1,
-        },
+
         {
           field: 'date',
           headerName: 'Date',
           flex: 1,
         },
+        {
+          field: 'time',
+          headerName: 'Time',
+          flex: 1,
+        },
+       
       ]);
       setData(res.data.data);
       setLoading(false);
