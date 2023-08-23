@@ -25,13 +25,16 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://autozone-8azp.onrender.com/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        'https://autozone-backend.onrender.com/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       if (response.ok) {
         const { token } = await response.json();

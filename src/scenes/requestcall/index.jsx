@@ -32,7 +32,7 @@ const RequestCall = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          'https://autozone-8azp.onrender.com/getCallbacks'
+          'https://autozone-backend.onrender.com/getCallbacks'
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -93,7 +93,7 @@ const RequestCall = () => {
         .slice(0, 10);
 
       const res = await axios.post(
-        'https://autozone-8azp.onrender.com/callBackRange',
+        'https://autozone-backend.onrender.com/callBackRange',
         {
           startDate: formattedStartDateString,
           endDate: formattedEndDateString,
@@ -146,7 +146,7 @@ const RequestCall = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/getCallbacks'
+        'https://autozone-backend.onrender.com/getCallbacks'
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -190,7 +190,7 @@ const RequestCall = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/repeatedCallBack'
+        'https://autozone-backend.onrender.com/repeatedCallBack'
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -234,7 +234,7 @@ const RequestCall = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/callBacksUniqueEntries`
+        `https://autozone-backend.onrender.com/callBacksUniqueEntries`
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },

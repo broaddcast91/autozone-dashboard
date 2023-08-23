@@ -31,7 +31,7 @@ const BookAService = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          'https://autozone-8azp.onrender.com/getService'
+          'https://autozone-backend.onrender.com/getService'
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -110,7 +110,7 @@ const BookAService = () => {
         .slice(0, 10);
 
       const res = await axios.post(
-        'https://autozone-8azp.onrender.com/serviceRangeData',
+        'https://autozone-backend.onrender.com/serviceRangeData',
         {
           startDate: formattedStartDateString,
           endDate: formattedEndDateString,
@@ -178,7 +178,7 @@ const BookAService = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/getService'
+        'https://autozone-backend.onrender.com/getService'
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -238,7 +238,7 @@ const BookAService = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/dupesService'
+        'https://autozone-backend.onrender.com/dupesService'
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -274,7 +274,7 @@ const BookAService = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/serviceUniqueEntries`
+        `https://autozone-backend.onrender.com/serviceUniqueEntries`
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },

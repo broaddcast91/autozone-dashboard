@@ -31,7 +31,7 @@ const OnRoadPrice = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          'https://autozone-8azp.onrender.com/getOnRoadPrice'
+          'https://autozone-backend.onrender.com/getOnRoadPrice'
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -111,7 +111,7 @@ const OnRoadPrice = () => {
         .slice(0, 10);
 
       const res = await axios.post(
-        'https://autozone-8azp.onrender.com/onRoadPriceRange',
+        'https://autozone-backend.onrender.com/onRoadPriceRange',
         {
           startDate: formattedStartDateString,
           endDate: formattedEndDateString,
@@ -244,7 +244,7 @@ const OnRoadPrice = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/getOnRoadPrice'
+        'https://autozone-backend.onrender.com/getOnRoadPrice'
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -304,7 +304,7 @@ const OnRoadPrice = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/duplicateOnRoadPrice'
+        'https://autozone-backend.onrender.com/duplicateOnRoadPrice'
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -340,7 +340,7 @@ const OnRoadPrice = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/onRoadPriceUniqueEntries`
+        `https://autozone-backend.onrender.com/onRoadPriceUniqueEntries`
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },

@@ -30,7 +30,7 @@ const ContactUs = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          'https://autozone-8azp.onrender.com/getContactus'
+          'https://autozone-backend.onrender.com/getContactus'
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -106,7 +106,7 @@ const ContactUs = () => {
         .slice(0, 10);
 
       const res = await axios.post(
-        'https://autozone-8azp.onrender.com/contactUsRange',
+        'https://autozone-backend.onrender.com/contactUsRange',
         {
           startDate: formattedStartDateString,
           endDate: formattedEndDateString,
@@ -174,7 +174,7 @@ const ContactUs = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/getContactus'
+        'https://autozone-backend.onrender.com/getContactus'
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -233,7 +233,7 @@ const ContactUs = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/repeatedContactUs'
+        'https://autozone-backend.onrender.com/repeatedContactUs'
       );
 
       // Process the response data to create rows
@@ -265,7 +265,7 @@ const ContactUs = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/contactUsUniqueEntries`
+        `https://autozone-backend.onrender.com/contactUsUniqueEntries`
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },

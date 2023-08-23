@@ -28,7 +28,7 @@ const Finance = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          'https://autozone-8azp.onrender.com/getfinance'
+          'https://autozone-backend.onrender.com/getfinance'
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -120,7 +120,7 @@ const Finance = () => {
         .slice(0, 10);
 
       const res = await axios.post(
-        'https://autozone-8azp.onrender.com/financeRange',
+        'https://autozone-backend.onrender.com/financeRange',
         {
           startDate: formattedStartDateString,
           endDate: formattedEndDateString,
@@ -204,7 +204,7 @@ const Finance = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/getfinance'
+        'https://autozone-backend.onrender.com/getfinance'
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -279,7 +279,7 @@ const Finance = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/duplicateFinance'
+        'https://autozone-backend.onrender.com/duplicateFinance'
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -315,7 +315,7 @@ const Finance = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/financeUniqueEntries`
+        `https://autozone-backend.onrender.com/financeUniqueEntries`
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },

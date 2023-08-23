@@ -29,7 +29,7 @@ const Insurance = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          'https://autozone-8azp.onrender.com/getIsurance'
+          'https://autozone-backend.onrender.com/getIsurance'
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -125,7 +125,7 @@ const Insurance = () => {
         .slice(0, 10);
 
       const res = await axios.post(
-        'https://autozone-8azp.onrender.com/insuranceRange',
+        'https://autozone-backend.onrender.com/insuranceRange',
         {
           startDate: formattedStartDateString,
           endDate: formattedEndDateString,
@@ -211,7 +211,7 @@ const Insurance = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/getIsurance'
+        'https://autozone-backend.onrender.com/getIsurance'
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -288,7 +288,7 @@ const Insurance = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/duplicateInsurance'
+        'https://autozone-backend.onrender.com/duplicateInsurance'
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -324,7 +324,7 @@ const Insurance = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/insuranceUniqueEntries`
+        `https://autozone-backend.onrender.com/insuranceUniqueEntries`
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },

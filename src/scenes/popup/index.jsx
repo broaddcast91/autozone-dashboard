@@ -25,7 +25,7 @@ const Popup = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          'https://autozone-8azp.onrender.com/getPopups'
+          'https://autozone-backend.onrender.com/getPopups'
         );
         setCol([
           { field: 'id', headerName: 'ID' },
@@ -79,7 +79,7 @@ const Popup = () => {
         .slice(0, 10);
 
       const res = await axios.post(
-        'https://autozone-8azp.onrender.com/popUpRangeData',
+        'https://autozone-backend.onrender.com/popUpRangeData',
         {
           startDate: formattedStartDateString,
           endDate: formattedEndDateString,
@@ -155,7 +155,7 @@ const Popup = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/getpopups'
+        'https://autozone-backend.onrender.com/getpopups'
       );
 
       setStartDate(null);
@@ -178,7 +178,6 @@ const Popup = () => {
           headerName: 'Time',
           flex: 1,
         },
-       
       ]);
       setData(res.data.data);
 
@@ -193,7 +192,7 @@ const Popup = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-8azp.onrender.com/dupilicatepopups'
+        'https://autozone-backend.onrender.com/dupilicatepopups'
       );
 
       // Process the response data to create rows with unique phoneNumber and count combinations
@@ -223,7 +222,7 @@ const Popup = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-8azp.onrender.com/popUpUniqueEntries`
+        `https://autozone-backend.onrender.com/popUpUniqueEntries`
       );
       setCol([
         { field: 'id', headerName: 'ID' },
@@ -243,7 +242,6 @@ const Popup = () => {
           headerName: 'Time',
           flex: 1,
         },
-       
       ]);
       setData(res.data.data);
       setLoading(false);
