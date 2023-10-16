@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Typography, useTheme , Tooltip} from '@mui/material';
 import { Link } from 'react-router-dom';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { tokens } from '../../theme';
 // import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-
+// import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import PhoneCallbackIcon from '@mui/icons-material/PhoneCallback';
 import PriceChangeIcon from '@mui/icons-material/PriceChange';
@@ -14,8 +14,9 @@ import CarCrashIcon from '@mui/icons-material/CarCrash';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+// import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+// import SportsMotorsportsIcon from '@mui/icons-material/SportsMotorsports';
 // import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 // import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 // import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
@@ -28,20 +29,28 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
-    <MenuItem
-      active={selected === title}
-      style={{
-        color: colors.grey[100],
-      }}
-      onClick={() => setSelected(title)}
-      icon={icon}
-    >
-      <Typography>{title}</Typography>
-      <Link to={to} />
-    </MenuItem>
+    <Tooltip title={title} placement="right" >
+      <MenuItem
+        active={selected === title}
+        style={{
+          color: colors.grey[100],
+        }}
+        onClick={() => setSelected(title)}
+        icon={
+          <Tooltip title={title} placement="bottom">
+            {icon}
+          </Tooltip>
+        }
+      >
+        <Typography>{title}</Typography>
+        <Link to={to} />
+      </MenuItem>
+    </Tooltip>
   );
 };
+
 
 const Sidebar = () => {
   const theme = useTheme();
@@ -51,25 +60,25 @@ const Sidebar = () => {
 
   return (
     <Box
-      sx={{
-        '& .pro-sidebar-inner': {
-          background: `${colors.primary[400]} !important`,
-        },
-        '& .pro-icon-wrapper': {
-          backgroundColor: 'transparent !important',
-        },
-        '& .pro-inner-item': {
-          padding: '5px 35px 5px 20px !important',
-        },
-        '& .pro-inner-item:hover': {
-          color: '#ffd300 !important',
-        },
-        '& .pro-menu-item.active': {
-          color: '#ffd300 !important',
-        },
-      }}
+    sx={{
+      '& .pro-sidebar-inner': {
+        background: `${colors.sabooAutoColors[600]} !important`,
+      },
+      '& .pro-icon-wrapper': {
+        backgroundColor: 'transparent !important',
+      },
+      '& .pro-inner-item': {
+        padding: '5px 35px 5px 20px !important',
+      },
+      '& .pro-inner-item:hover': {
+        color: '#e0962a !important',
+      },
+      '& .pro-menu-item.active': {
+        color: '#e0962a !important',
+      },
+    }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+    <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape='square'>
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -87,18 +96,19 @@ const Sidebar = () => {
                 alignItems='center'
                 ml='15px'
               >
-                <Typography variant='h3' color={colors.grey[100]}>
+                <Typography variant='h3' color={colors.sabooAutoColors[600][100]}>
                   {/* Saboo RKS */}
                   <img
                     alt='profile-user'
-                    width='100px'
-                    height='100px'
+                    width='150px'
+                    height='150px'
                     src={`../../assets/sabooautozone.webp`}
                     // style={{ cursor: 'pointer', borderRadius: '100%' }}
                   />
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
+                  <MenuOutlinedIcon style={{margin: '10px 0 20px 0',
+              color: colors.grey[100],}} />
                 </IconButton>
               </Box>
             )}
@@ -106,14 +116,8 @@ const Sidebar = () => {
 
           {!isCollapsed && (
             <Box mb='25px'>
-              <Box display='flex' justifyContent='center' alignItems='center'>
-                {/* <img
-                  alt='profile-user'
-                  width='100px'
-                  height='100px'
-                  src={`../../assets/sabooautozone.webp`}
-                  // style={{ cursor: 'pointer', borderRadius: '100%' }}
-                /> */}
+              <Box display='flex' justifyContent='center' alignItems='center' >
+               
               </Box>
               <Box textAlign='center'>
                 <Typography
@@ -122,11 +126,9 @@ const Sidebar = () => {
                   fontWeight='bold'
                   sx={{ m: '10px 0 0 0' }}
                 >
-                  AUTOZONE
+                 Autozone
                 </Typography>
-                <Typography variant='h6' color={colors.greenAccent[500]}>
-                  By Saboo RKS Group
-                </Typography>
+                
               </Box>
             </Box>
           )}

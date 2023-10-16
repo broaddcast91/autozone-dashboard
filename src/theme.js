@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 
 // color design tokens export
 export const tokens = (mode) => ({
-  ...(mode === 'dark'
+  ...(mode === 'light'
     ? {
         grey: {
           100: '#e0e0e0',
@@ -17,6 +17,7 @@ export const tokens = (mode) => ({
           900: '#141414',
         },
         primary: {
+        
           100: '#d0d1d5',
           200: '#a1a4ab',
           300: '#727681',
@@ -64,6 +65,11 @@ export const tokens = (mode) => ({
           100: '#750000',
           200: '#ffd300',
           300: '#a37474',
+          400:'	#ffffff', //white
+          500:'#FF0000' ,//red
+          600:"#132a3c", // autozone blue
+          700:'#a22a2d', //autozone red
+          800:"#e0962a" // autozone yellow
         },
       }
     : {
@@ -126,7 +132,8 @@ export const tokens = (mode) => ({
 });
 
 // mui theme settings
-export const themeSettings = (mode) => {
+
+export const themeSettings = (mode = 'light') => {
   const colors = tokens(mode);
   return {
     palette: {
@@ -158,7 +165,7 @@ export const themeSettings = (mode) => {
               main: colors.greenAccent[500],
             },
             neutral: {
-              dark: colors.grey[700],
+              dark: colors.grey[100],
               main: colors.grey[500],
               light: colors.grey[100],
             },
@@ -198,13 +205,14 @@ export const themeSettings = (mode) => {
   };
 };
 
+
 // context for color mode
 export const ColorModeContext = createContext({
   toggleColorMode: () => {},
 });
 
 export const useMode = () => {
-  const [mode, setMode] = useState('dark');
+  const [mode, setMode] = useState('light'); // Set the default mode to 'light'
 
   const colorMode = useMemo(
     () => ({
@@ -217,3 +225,4 @@ export const useMode = () => {
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return [theme, colorMode];
 };
+
