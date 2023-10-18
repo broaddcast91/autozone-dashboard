@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 
-//import date range picker files
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+// //import date range picker files
+// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+// import { LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
+// import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -20,6 +20,7 @@ import {
 } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
+import TextField from "@mui/material/TextField";
 const Popup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -71,7 +72,14 @@ const Popup = () => {
   });
 
   //date range unique function
-
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+  
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+  
   async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
@@ -332,35 +340,30 @@ const Popup = () => {
       >
         <Header title="Popup" subtitle="List of Popup Enquiries" />
         <div style={{ display: "flex", alignItems: "center" }}>
-          <div style={{ marginRight: "10px" }}>
-            {" "}
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer
-                components={["DateRangePicker"]}
-                sx={{ padding: "6px", backgroundColor: "transparent" }}
-              >
-                <DateRangePicker
-                  localeText={{
-                    start: (
-                      <span style={{ fontSize: "16px", padding: "2px" }}>
-                        Start Date
-                      </span>
-                    ),
-                    end: (
-                      <span style={{ fontSize: "16px", padding: "2px" }}>
-                        End Date
-                      </span>
-                    ),
-                  }}
-                  start={startDate}
-                  end={endDate}
-                  onChange={(newValue) => {
-                    setStartDate(newValue[0]);
-                    setEndDate(newValue[1]);
-                  }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
+        <div style={{ marginRight: "10px" }}>
+            <TextField
+              id="start-date"
+              label="Start Date"
+              type="date"
+              value={startDate}
+              onChange={handleStartDateChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ margin: "10px" }}
+            />
+
+            <TextField
+              id="end-date"
+              label="End Date"
+              type="date"
+              value={endDate}
+              onChange={handleEndDateChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ margin: "10px" }}
+            />
           </div>
 
           <Button

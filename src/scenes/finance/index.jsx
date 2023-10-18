@@ -7,10 +7,10 @@ import axios from "axios";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 
 //import date range picker files
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+// import { LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
+// import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -20,7 +20,7 @@ import {
 } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
-
+import TextField from "@mui/material/TextField";
 const Finance = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -112,27 +112,23 @@ const Finance = () => {
   let newData = data.map((item, index) => {
     return { ...item, id: index + 1 };
   });
-
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+  
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
   async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
-      const formattedStartDate = new Date(startDate);
-      formattedStartDate.setDate(formattedStartDate.getDate() + 1);
-      const formattedStartDateString = formattedStartDate
-        .toISOString()
-        .slice(0, 10);
-
-      const formattedEndDate = new Date(endDate);
-      formattedEndDate.setDate(formattedEndDate.getDate() + 1);
-      const formattedEndDateString = formattedEndDate
-        .toISOString()
-        .slice(0, 10);
+     
 
       const res = await axios.post(
         'https://autozone-backend.onrender.com/financeRange',
         {
-          startDate: formattedStartDateString,
-          endDate: formattedEndDateString,
+          startDate: startDate,
+          endDate: endDate,
         }
       );
       setCol([
@@ -460,36 +456,31 @@ const Finance = () => {
             subtitle='List of Finance Price for Future Reference'
           />
       <div style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ marginRight: "10px" }}>
-          {" "}
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer
-              components={["DateRangePicker"]}
-              sx={{ padding: "6px", backgroundColor: "transparent" }}
-            >
-              <DateRangePicker
-                localeText={{
-                  start: (
-                    <span style={{ fontSize: "16px", padding: "2px" }}>
-                      Start Date
-                    </span>
-                  ),
-                  end: (
-                    <span style={{ fontSize: "16px", padding: "2px" }}>
-                      End Date
-                    </span>
-                  ),
-                }}
-                start={startDate}
-                end={endDate}
-                onChange={(newValue) => {
-                  setStartDate(newValue[0]);
-                  setEndDate(newValue[1]);
-                }}
-              />
-            </DemoContainer>
-          </LocalizationProvider>
-        </div>
+      <div style={{ marginRight: "10px" }}>
+            <TextField
+              id="start-date"
+              label="Start Date"
+              type="date"
+              value={startDate}
+              onChange={handleStartDateChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ margin: "10px" }}
+            />
+
+            <TextField
+              id="end-date"
+              label="End Date"
+              type="date"
+              value={endDate}
+              onChange={handleEndDateChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ margin: "10px" }}
+            />
+          </div>
 
         <Button
           variant="contained"

@@ -7,10 +7,10 @@ import axios from "axios";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 
 //import date range picker files
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+// import { LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
+// import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -20,7 +20,7 @@ import {
 } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
-
+import TextField from "@mui/material/TextField";
 const BookAService = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -38,51 +38,51 @@ const BookAService = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          'https://autozone-backend.onrender.com/getService'
+          "https://autozone-backend.onrender.com/getService"
         );
         setCol([
-          { field: 'id', headerName: 'ID', flex: 0.5 },
+          { field: "id", headerName: "ID", flex: 0.5 },
           {
-            field: 'name',
-            headerName: 'Name',
+            field: "name",
+            headerName: "Name",
             flex: 1,
-            cellClassName: 'name-column--cell',
+            cellClassName: "name-column--cell",
           },
           {
-            field: 'email',
-            headerName: 'Email',
+            field: "email",
+            headerName: "Email",
             flex: 1,
           },
           {
-            field: 'mobile',
-            headerName: 'Phone Number',
+            field: "mobile",
+            headerName: "Phone Number",
             flex: 1,
             cellClassName: "phone-column--cell",
           },
           {
-            field: 'outlet',
-            headerName: 'Outlet',
+            field: "outlet",
+            headerName: "Outlet",
             flex: 1,
           },
           {
-            field: 'pick_up',
-            headerName: 'Pick Up',
+            field: "pick_up",
+            headerName: "Pick Up",
             flex: 1,
-            cellClassName: 'name-column--cell',
+            cellClassName: "name-column--cell",
           },
           {
-            field: 'vehicle',
-            headerName: 'Vehicle',
-            flex: 1,
-          },
-          {
-            field: 'date',
-            headerName: 'Date',
+            field: "vehicle",
+            headerName: "Vehicle",
             flex: 1,
           },
           {
-            field: 'time',
-            headerName: 'Time',
+            field: "date",
+            headerName: "Date",
+            flex: 1,
+          },
+          {
+            field: "time",
+            headerName: "Time",
             flex: 1,
           },
         ]);
@@ -101,72 +101,69 @@ const BookAService = () => {
   });
 
   //date range unique function
-
+ 
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+  
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+  
   async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
-      const formattedStartDate = new Date(startDate);
-      formattedStartDate.setDate(formattedStartDate.getDate() + 1);
-      const formattedStartDateString = formattedStartDate
-        .toISOString()
-        .slice(0, 10);
-
-      const formattedEndDate = new Date(endDate);
-      formattedEndDate.setDate(formattedEndDate.getDate() + 1);
-      const formattedEndDateString = formattedEndDate
-        .toISOString()
-        .slice(0, 10);
-
+     
       const res = await axios.post(
-        'https://autozone-backend.onrender.com/serviceRangeData',
+        "https://autozone-backend.onrender.com/serviceRangeData",
         {
-          startDate: formattedStartDateString,
-          endDate: formattedEndDateString,
+          startDate: startDate,
+          endDate: endDate,
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: 'name',
-          headerName: 'Name',
+          field: "name",
+          headerName: "Name",
           flex: 1,
-          cellClassName: 'name-column--cell',
+          cellClassName: "name-column--cell",
         },
         {
-          field: 'email',
-          headerName: 'Email',
+          field: "email",
+          headerName: "Email",
           flex: 1,
         },
         {
-          field: 'mobile',
-          headerName: 'Phone Number',
+          field: "mobile",
+          headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
         {
-          field: 'outlet',
-          headerName: 'Outlet',
+          field: "outlet",
+          headerName: "Outlet",
           flex: 1,
         },
         {
-          field: 'pick_up',
-          headerName: 'Pick Up',
+          field: "pick_up",
+          headerName: "Pick Up",
           flex: 1,
-          cellClassName: 'name-column--cell',
+          cellClassName: "name-column--cell",
         },
         {
-          field: 'vehicle',
-          headerName: 'Vehicle',
-          flex: 1,
-        },
-        {
-          field: 'date',
-          headerName: 'Date',
+          field: "vehicle",
+          headerName: "Vehicle",
           flex: 1,
         },
         {
-          field: 'time',
-          headerName: 'Time',
+          field: "date",
+          headerName: "Date",
+          flex: 1,
+        },
+        {
+          field: "time",
+          headerName: "Time",
           flex: 1,
         },
       ]);
@@ -187,51 +184,51 @@ const BookAService = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/getService'
+        "https://autozone-backend.onrender.com/getService"
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: 'name',
-          headerName: 'Name',
+          field: "name",
+          headerName: "Name",
           flex: 1,
-          cellClassName: 'name-column--cell',
+          cellClassName: "name-column--cell",
         },
         {
-          field: 'email',
-          headerName: 'Email',
+          field: "email",
+          headerName: "Email",
           flex: 1,
         },
         {
-          field: 'mobile',
-          headerName: 'Phone Number',
+          field: "mobile",
+          headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
         {
-          field: 'outlet',
-          headerName: 'Outlet',
+          field: "outlet",
+          headerName: "Outlet",
           flex: 1,
         },
         {
-          field: 'pick_up',
-          headerName: 'Pick Up',
+          field: "pick_up",
+          headerName: "Pick Up",
           flex: 1,
-          cellClassName: 'name-column--cell',
+          cellClassName: "name-column--cell",
         },
         {
-          field: 'vehicle',
-          headerName: 'Vehicle',
-          flex: 1,
-        },
-        {
-          field: 'date',
-          headerName: 'Date',
+          field: "vehicle",
+          headerName: "Vehicle",
           flex: 1,
         },
         {
-          field: 'time',
-          headerName: 'Time',
+          field: "date",
+          headerName: "Date",
+          flex: 1,
+        },
+        {
+          field: "time",
+          headerName: "Time",
           flex: 1,
         },
       ]);
@@ -248,7 +245,7 @@ const BookAService = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/dupesService'
+        "https://autozone-backend.onrender.com/dupesService"
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -259,18 +256,23 @@ const BookAService = () => {
         processedData.push({
           id: idCounter++,
           phoneNumber: item.number,
-          model: item.vehicle || 'N/A',
+          model: item.vehicle || "N/A",
           count: item.count,
           date: item.date, // Adding the date field
         });
       });
 
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
-        { field: 'phoneNumber', headerName: 'Phone Number', flex: 1 , cellClassName: "phone-column--cell",},
-        { field: 'model', headerName: 'Model', flex: 1 },
-        { field: 'count', headerName: 'Count', flex: 1 },
-        { field: 'date', headerName: 'Date', flex: 1 }, // Adding the date column
+        { field: "id", headerName: "ID", flex: 0.5 },
+        {
+          field: "phoneNumber",
+          headerName: "Phone Number",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+        { field: "model", headerName: "Model", flex: 1 },
+        { field: "count", headerName: "Count", flex: 1 },
+        { field: "date", headerName: "Date", flex: 1 }, // Adding the date column
       ]);
 
       setData(processedData);
@@ -287,48 +289,48 @@ const BookAService = () => {
         `https://autozone-backend.onrender.com/serviceUniqueEntries`
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: 'name',
-          headerName: 'Name',
+          field: "name",
+          headerName: "Name",
           flex: 1,
-          cellClassName: 'name-column--cell',
+          cellClassName: "name-column--cell",
         },
         {
-          field: 'email',
-          headerName: 'Email',
+          field: "email",
+          headerName: "Email",
           flex: 1,
         },
         {
-          field: 'mobile',
-          headerName: 'Phone Number',
+          field: "mobile",
+          headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
         {
-          field: 'outlet',
-          headerName: 'Outlet',
+          field: "outlet",
+          headerName: "Outlet",
           flex: 1,
         },
         {
-          field: 'pick_up',
-          headerName: 'Pick Up',
+          field: "pick_up",
+          headerName: "Pick Up",
           flex: 1,
-          cellClassName: 'name-column--cell',
+          cellClassName: "name-column--cell",
         },
         {
-          field: 'vehicle',
-          headerName: 'Vehicle',
-          flex: 1,
-        },
-        {
-          field: 'date',
-          headerName: 'Date',
+          field: "vehicle",
+          headerName: "Vehicle",
           flex: 1,
         },
         {
-          field: 'time',
-          headerName: 'Time',
+          field: "date",
+          headerName: "Date",
+          flex: 1,
+        },
+        {
+          field: "time",
+          headerName: "Time",
           flex: 1,
         },
       ]);
@@ -340,119 +342,113 @@ const BookAService = () => {
     }
   };
 
-          const handleDownloadCSV = () => {
-            const csvData = [];
-            const headers = col.map((column) => column.headerName);
-            csvData.push(headers);
-        
-            newData.forEach((item) => {
-              const row = col.map((column) => item[column.field]);
-              csvData.push(row);
-            });
-        
-            const csvContent = csvData.map((row) => row.join(",")).join("\n");
-        
-            const blob = new Blob([csvContent], { type: "text/csv" });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.style.display = "none";
-            a.href = url;
-            a.download = "BookAService(Autozone).csv";
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-          };
-        
-        
-          const CustomToolbar = () => {
-            return (
-              <GridToolbarContainer>
-                <GridToolbarColumnsButton />
-                <GridToolbarFilterButton />
-                <GridToolbarDensitySelector />
-                <IconButton
-                  color="primary"
-                  onClick={handleDownloadCSV}
-                  sx={{
-                    marginLeft: "10px",
-                    backgroundColor: "white",
-                    fontSize: "14px",
-                    padding: "5px",
-                    minWidth: "auto",
-                    height: "25px",
-                    color:"#132a3c",
-                    "&:hover": {
-                      color: "#e0962a",
-                    }
-                  }}
-                >
-                  <DownloadIcon />
-                </IconButton>
-              </GridToolbarContainer>
-            );
-          };
-          return (
-            <Box m="20px">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
+  const handleDownloadCSV = () => {
+    const csvData = [];
+    const headers = col.map((column) => column.headerName);
+    csvData.push(headers);
+
+    newData.forEach((item) => {
+      const row = col.map((column) => item[column.field]);
+      csvData.push(row);
+    });
+
+    const csvContent = csvData.map((row) => row.join(",")).join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    a.download = "BookAService(Autozone).csv";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  };
+
+  const CustomToolbar = () => {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+        <IconButton
+          color="primary"
+          onClick={handleDownloadCSV}
+          sx={{
+            marginLeft: "10px",
+            backgroundColor: "white",
+            fontSize: "14px",
+            padding: "5px",
+            minWidth: "auto",
+            height: "25px",
+            color: "#132a3c",
+            "&:hover": {
+              color: "#e0962a",
+            },
+          }}
+        >
+          <DownloadIcon />
+        </IconButton>
+      </GridToolbarContainer>
+    );
+  };
+  return (
+    <Box m="20px">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Header
+          title="Book a Service"
+          subtitle="List of Vehicle Service requests for Future Reference"
+        />
+        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ marginRight: "10px" }}>
+            <TextField
+              id="start-date"
+              label="Start Date"
+              type="date"
+              value={startDate}
+              onChange={handleStartDateChange}
+              InputLabelProps={{
+                shrink: true,
               }}
-            >
-             <Header
-            title='Book a Service'
-            subtitle='List of Vehicle Service requests for Future Reference'
-          />
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <div style={{ marginRight: "10px" }}>
-                  {" "}
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer
-                      components={["DateRangePicker"]}
-                      sx={{ padding: "6px", backgroundColor: "transparent" }}
-                    >
-                      <DateRangePicker
-                        localeText={{
-                          start: (
-                            <span style={{ fontSize: "16px", padding: "2px" }}>
-                              Start Date
-                            </span>
-                          ),
-                          end: (
-                            <span style={{ fontSize: "16px", padding: "2px" }}>
-                              End Date
-                            </span>
-                          ),
-                        }}
-                        start={startDate}
-                        end={endDate}
-                        onChange={(newValue) => {
-                          setStartDate(newValue[0]);
-                          setEndDate(newValue[1]);
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                </div>
-        
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    backgroundColor: "#a22a2d",
-                    mr: 2,
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: "#e0962a",
-                    },
-                  }}
-                  onClick={handleDup}
-                >
-                  Duplicates
-                </Button>
-        
-                {/* <input
+              sx={{ margin: "10px" }}
+            />
+
+            <TextField
+              id="end-date"
+              label="End Date"
+              type="date"
+              value={endDate}
+              onChange={handleEndDateChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ margin: "10px" }}
+            />
+          </div>
+
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              backgroundColor: "#a22a2d",
+              mr: 2,
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#e0962a",
+              },
+            }}
+            onClick={handleDup}
+          >
+            Duplicates
+          </Button>
+
+          {/* <input
                 type='date'
                 required
                 sx={{ mr: 2, backgroundColor: '#940004' }}
@@ -474,38 +470,38 @@ const BookAService = () => {
                   // Allow the input to grow to fill available space
                 }}
               /> */}
-        
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    mr: 2,
-                    backgroundColor: "#a22a2d",
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: "#e0962a",
-                    },
-                  }}
-                  onClick={uniqueEntries}
-                >
-                  {" "}
-                  <LooksOneIcon />
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    backgroundColor: "#a22a2d",
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: "#e0962a",
-                    },
-                  }}
-                  onClick={handleReset}
-                >
-                  Reset
-                </Button>
-                {/* <Button
+
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              mr: 2,
+              backgroundColor: "#a22a2d",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#e0962a",
+              },
+            }}
+            onClick={uniqueEntries}
+          >
+            {" "}
+            <LooksOneIcon />
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              backgroundColor: "#a22a2d",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#e0962a",
+              },
+            }}
+            onClick={handleReset}
+          >
+            Reset
+          </Button>
+          {/* <Button
                 variant='contained'
                 color='primary'
                 sx={{ ml: 2, backgroundColor: '#940004' }}
@@ -527,90 +523,89 @@ const BookAService = () => {
                   padding: '8px',
                 }}
               /> */}
-              </div>
-            </div>
-        
-            <Box
-m="40px 0 0 0"
-height="75vh"
-sx={{
-  "& .MuiDataGrid-root": {
-    border: "none",
-    backgroundColor: "white",
-   // border: "1px solid #ccc", // Add a border to the table
-  },
-  
- 
-  "& .MuiDataGrid-columnHeader": {
-    color: "white",
-    backgroundColor: colors.sabooAutoColors[600],// Optional background color for headers
-  },
-  "& .MuiDataGrid-virtualScroller": {
-    backgroundColor: colors.sabooAutoColors[400],
-  },
-  // "& .MuiDataGrid-footerContainer": {
-  //   borderTop: "none",
-  //   backgroundColor: colors.blueAccent[700],
-  //   "& .MuiTypography-root": {
-  //     color: "white", // Change the footer text color to white
-  //   },
-  // },
-  "& .MuiCheckbox-root": {
-    color: `${colors.sabooAutoColors[600]} !important`,
-  },
-  "& .MuiDataGrid-toolbarContainer .MuiButton-text ": {
-    color: `${colors.sabooAutoColors[600]} !important`,
-  },
-  "& .MuiDataGrid-toolbarContainer .MuiButton-text:hover ": {
-    color: `${colors.sabooAutoColors[800]} !important`,
-  },
-  '& .MuiDataGrid-sortIcon': {
-    color:'white',
-  },
-  // "& .MuiDataGrid-cell": {
-  //   //borderBottom: "none",
-  //   backgroundColor: "white",
-  //   borderBottom: "1px solid #ccc", // Add a border to table cells
-  // },
-  "& .phone-column--cell": {
-    color: colors.sabooAutoColors[700],
-    // backgroundColor: "white",
-  },
-  '& .css-196n7va-MuiSvgIcon-root': {
-    color:'white',
-  },
-}}
->
-{loading ? (
-  <div>Processing, please wait...</div>
-) : error ? (
-  "Error ~ Something went wrong :)"
-) : (
-  <DataGrid
-  rows={newData}
-  columns={col.map((column) => ({
-    ...column,
-    renderCell: (params) => (
-      <div
-        style={{
-          whiteSpace: "pre-wrap", // Enable word wrapping
-          overflow: "hidden", // Hide overflow content
-          textOverflow: "ellipsis", // Show ellipsis for overflow
+        </div>
+      </div>
+
+      <Box
+        m="40px 0 0 0"
+        height="75vh"
+        sx={{
+          "& .MuiDataGrid-root": {
+            border: "none",
+            backgroundColor: "white",
+            // border: "1px solid #ccc", // Add a border to the table
+          },
+
+          "& .MuiDataGrid-columnHeader": {
+            color: "white",
+            backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: colors.sabooAutoColors[400],
+          },
+          // "& .MuiDataGrid-footerContainer": {
+          //   borderTop: "none",
+          //   backgroundColor: colors.blueAccent[700],
+          //   "& .MuiTypography-root": {
+          //     color: "white", // Change the footer text color to white
+          //   },
+          // },
+          "& .MuiCheckbox-root": {
+            color: `${colors.sabooAutoColors[600]} !important`,
+          },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text ": {
+            color: `${colors.sabooAutoColors[600]} !important`,
+          },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text:hover ": {
+            color: `${colors.sabooAutoColors[800]} !important`,
+          },
+          "& .MuiDataGrid-sortIcon": {
+            color: "white",
+          },
+          // "& .MuiDataGrid-cell": {
+          //   //borderBottom: "none",
+          //   backgroundColor: "white",
+          //   borderBottom: "1px solid #ccc", // Add a border to table cells
+          // },
+          "& .phone-column--cell": {
+            color: colors.sabooAutoColors[700],
+            // backgroundColor: "white",
+          },
+          "& .css-196n7va-MuiSvgIcon-root": {
+            color: "white",
+          },
         }}
       >
-        {params.value}
-      </div>
-    ),
-  }))}
-  components={{ Toolbar: CustomToolbar }}
-  sx={{
-    backgroundColor: "white", // Set the background color to white
-  }}
-/>
-)}
-</Box>
-          </Box>
-          );
+        {loading ? (
+          <div>Processing, please wait...</div>
+        ) : error ? (
+          "Error ~ Something went wrong :)"
+        ) : (
+          <DataGrid
+            rows={newData}
+            columns={col.map((column) => ({
+              ...column,
+              renderCell: (params) => (
+                <div
+                  style={{
+                    whiteSpace: "pre-wrap", // Enable word wrapping
+                    overflow: "hidden", // Hide overflow content
+                    textOverflow: "ellipsis", // Show ellipsis for overflow
+                  }}
+                >
+                  {params.value}
+                </div>
+              ),
+            }))}
+            components={{ Toolbar: CustomToolbar }}
+            sx={{
+              backgroundColor: "white", // Set the background color to white
+            }}
+          />
+        )}
+      </Box>
+    </Box>
+  );
 };
 
 export default BookAService;
