@@ -1,16 +1,16 @@
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Button } from '@mui/material';
+// import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { tokens } from '../../theme';
 
-import { tokens } from "../../theme";
-import Header from "../../components/Header";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import LooksOneIcon from "@mui/icons-material/LooksOne";
+import LooksOneIcon from '@mui/icons-material/LooksOne';
+import Header from '../../components/Header';
+import { useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-// //import date range picker files
-// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-// import { LocalizationProvider } from "@mui/x-date-pickers";
-// import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-// import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+//import date range picker files
+// import { DemoContainer } from '@mui/x-da ate-pickers-pro/DateRangePicker';
+
 import {
   DataGrid,
   GridToolbarContainer,
@@ -21,43 +21,64 @@ import {
 import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TextField from "@mui/material/TextField";
-const Popup = () => {
+const AllData = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-  const [col, setCol] = useState([]);
   const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState(null   );
+
+  const [col, setCol] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
         const res = await axios.get(
-          "https://autozone-backend.onrender.com/getPopups"
+          "https://autozone-backend.onrender.com/allData"
         );
+
+        const unifiedData = res.data.data.map((item) => ({
+          ...item,
+          Name: item.Last_Name || item.name,
+          "Phone Number": item.number || item.mobile || item.phone,
+        }));
+
         setCol([
-          { field: "id", headerName: "ID" },
+          { field: "id", headerName: "ID", flex: 0.5 },
           {
-            field: "number",
+            field: "Name",
+            headerName: "Name",
+            flex: 1,
+            cellClassName: "name-column--cell",
+          },
+          {
+            field: "Phone Number",
             headerName: "Phone Number",
             flex: 1,
             cellClassName: "phone-column--cell",
           },
-
+          {
+            field: "leadFrom",
+            headerName: "Lead From",
+            flex: 1,
+          },
           {
             field: "date",
             headerName: "Date",
             flex: 1,
           },
-
           {
             field: "time",
             headerName: "Time",
             flex: 1,
           },
         ]);
-        setData(res.data.data);
+
+        setData(unifiedData);
         setLoading(false);
       } catch (err) {
         setError(err);
@@ -71,7 +92,6 @@ const Popup = () => {
     return { ...item, id: index + 1 };
   });
 
-  //date range unique function
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
   };
@@ -80,6 +100,7 @@ const Popup = () => {
     setEndDate(event.target.value);
   };
   
+
   async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
@@ -96,23 +117,35 @@ const Popup = () => {
       //   .slice(0, 10);
 
       const res = await axios.post(
-        "https://autozone-backend.onrender.com/popUpRangeData",
+        'https://autozone-backend.onrender.com/findDataInRangeInAllCollections',
         {
           startDate: startDate,
           endDate: endDate,
         }
       );
+      const unifiedData = res.data.data.map((item) => ({
+        ...item,
+        Name: item.Last_Name || item.name,
+        "Phone Number": item.number || item.mobile || item.phone,
+      }));
+
       setCol([
-        { field: "id", headerName: "ID" },
+        { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: "number",
+          field: "Name",
+          headerName: "Name",
+          flex: 1,
+          cellClassName: "name-column--cell",
+        },
+        {
+          field: "Phone Number",
           headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
         {
-          field: "time",
-          headerName: "Time",
+          field: "leadFrom",
+          headerName: "Lead From",
           flex: 1,
         },
         {
@@ -120,8 +153,14 @@ const Popup = () => {
           headerName: "Date",
           flex: 1,
         },
-      ]);
-      setData(res.data.data);
+        {
+          field: "time",
+          headerName: "Time",
+          flex: 1,
+        },
+      ]);;
+
+      setData(unifiedData);
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -134,58 +173,36 @@ const Popup = () => {
       fetchUniqueValues(startDate, endDate);
     }
   }, [startDate, endDate]);
-
-  //   try {
-  //     setLoading(true);
-  //     const res = await axios.get(
-  //       `https://autozone-8azp.onrender.com/getpopups?date=${newInputValue}`
-  //     );
-  //     setCol([
-  //       { field: 'id', headerName: 'ID' },
-  //       {
-  //         field: 'number',
-  //         headerName: 'Phone Number',
-  //         flex: 1,
-  //       },
-
-  //       {
-  //         field: 'time',
-  //         headerName: 'Time',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'date',
-  //         headerName: 'Date',
-  //         flex: 1,
-  //       },
-  //     ]);
-  //     setData(res.data.data);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     setError(err);
-  //     setLoading(false);
-  //   }
-  // }
-  // const handleRemoveDuplicates = (newInputValue) => {
-  //   fetchData(newInputValue);
-  // };
   const handleReset = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        "https://autozone-backend.onrender.com/getpopups"
+        'https://autozone-backend.onrender.com/allData'
       );
-
-      setStartDate(null);
-      setEndDate(null);
+      const unifiedData = res.data.data.map((item) => ({
+        ...item,
+        Name: item.Last_Name || item.name,
+        "Phone Number": item.number || item.mobile || item.phone,
+      }));
 
       setCol([
-        { field: "id", headerName: "ID" },
+        { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: "number",
+          field: "Name",
+          headerName: "Name",
+          flex: 1,
+          cellClassName: "name-column--cell",
+        },
+        {
+          field: "Phone Number",
           headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
+        },
+        {
+          field: "leadFrom",
+          headerName: "Lead From",
+          flex: 1,
         },
         {
           field: "date",
@@ -198,9 +215,11 @@ const Popup = () => {
           flex: 1,
         },
       ]);
-      setData(res.data.data);
 
+      setData(unifiedData);
       setLoading(false);
+      setStartDate(null)
+      setEndDate(null)
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -211,52 +230,72 @@ const Popup = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        "https://autozone-backend.onrender.com/dupilicatepopups"
+        'https://autozone-backend.onrender.com/findDuplicatesInAllCollections'
       );
 
-      // Process the response data to create rows with unique phoneNumber and count combinations
-      const processedData = res.data.data.map((item, index) => ({
-        id: index + 1,
-        phoneNumber: item.number,
-        count: item.count,
-        date: item.date, // Adding the date field
-      }));
+      // Process the response data to create rows with phoneNumber, model, and count
+      const processedData = [];
+      let idCounter = 1;
+
+      res.data.data.forEach((item) => {
+        processedData.push({
+          id: idCounter++,
+          phoneNumber: item.number,
+          model: item.vehicle || '',
+          count: item.count,
+          date: item.date, // Adding the date field
+          leadFrom :item.leadFrom
+        });
+      });
 
       setCol([
-        { field: "id", headerName: "ID", flex: 0.5 },
-        {
-          field: "phoneNumber",
-          headerName: "Phone Number",
-          flex: 1,
-          cellClassName: "phone-column--cell",
-        },
-        { field: "count", headerName: "Count", flex: 1 },
-        { field: "date", headerName: "Date", flex: 1 },
+        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: 'phoneNumber', headerName: 'Phone Number', flex: 1 , cellClassName: 'phone-column--cell', },
+        { field: 'model', headerName: 'Model', flex: 1 },
+        { field: 'leadFrom', headerName: 'leadFrom', flex: 1 },
+        { field: 'count', headerName: 'Count', flex: 1 },
+        { field: 'date', headerName: 'Date', flex: 1 }, // Adding the date column
       ]);
 
       setData(processedData);
       setLoading(false);
+      setStartDate(null)
     } catch (err) {
       setError(err);
       setLoading(false);
     }
   };
-
   const uniqueEntries = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://autozone-backend.onrender.com/popUpUniqueEntries`
+        `https://autozone-backend.onrender.com/findUniqueEntriesInAllCollections`
       );
+      const unifiedData = res.data.data.map((item) => ({
+        ...item,
+        Name: item.Last_Name || item.name,
+        "Phone Number": item.number || item.mobile || item.phone,
+      }));
+
       setCol([
-        { field: "id", headerName: "ID" },
+        { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: "number",
+          field: "Name",
+          headerName: "Name",
+          flex: 1,
+          cellClassName: "name-column--cell",
+        },
+        {
+          field: "Phone Number",
           headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
-
+        {
+          field: "leadFrom",
+          headerName: "Lead From",
+          flex: 1,
+        },
         {
           field: "date",
           headerName: "Date",
@@ -268,16 +307,14 @@ const Popup = () => {
           flex: 1,
         },
       ]);
-      setData(res.data.data);
+
+      setData(unifiedData);
       setLoading(false);
     } catch (error) {
       setError(error);
       setLoading(false);
     }
   };
-
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
   const handleDownloadCSV = () => {
     const csvData = [];
@@ -296,14 +333,16 @@ const Popup = () => {
     const a = document.createElement("a");
     a.style.display = "none";
     a.href = url;
-    a.download = "popUp(Autozone).csv";
+    a.download = "All_Data(Arena).csv";
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
   };
 
-  const CustomToolbar = () => {
+  // Custom toolbar with the download button
+  
+const CustomToolbar = () => {
     return (
       <GridToolbarContainer>
         <GridToolbarColumnsButton />
@@ -319,7 +358,7 @@ const Popup = () => {
             padding: "5px",
             minWidth: "auto",
             height: "25px",
-            color: "#132a3c",
+            color:"#132a3c",
             "&:hover": {
               color: "#e0962a",
             },
@@ -330,6 +369,7 @@ const Popup = () => {
       </GridToolbarContainer>
     );
   };
+
   return (
     <Box m="20px">
       <div
@@ -338,7 +378,10 @@ const Popup = () => {
           justifyContent: "space-between",
         }}
       >
-        <Header title="Popup" subtitle="List of Popup Enquiries" />
+        <Header
+          title="All Data"
+          subtitle="data from all forms"
+        />
         <div style={{ display: "flex", alignItems: "center" }}>
         <div style={{ marginRight: "10px" }}>
             <TextField
@@ -374,7 +417,7 @@ const Popup = () => {
               mr: 2,
               color: "white",
               "&:hover": {
-                backgroundColor: "#e0962a",
+                backgroundColor: "#a22a2d",
               },
             }}
             onClick={handleDup}
@@ -383,27 +426,27 @@ const Popup = () => {
           </Button>
 
           {/* <input
-          type='date'
-          required
-          sx={{ mr: 2, backgroundColor: '#940004' }}
-          value={inputValue}
-          onChange={(e) => {
-            const newInputValue = e.target.value;
-            console.log('New input value:', newInputValue);
-            setInputValue(newInputValue);
-            handleRemoveDuplicates(newInputValue);
-          }}
-          style={{
-            backgroundColor: '#940004',
-            color: 'white',
-            borderRadius: '6px',
-            border: 'none',
-            padding: '6px',
-            margin: '15px', // Add margin to separate input and button
-            flex: 1,
-            // Allow the input to grow to fill available space
-          }}
-        /> */}
+                type='date'
+                required
+                sx={{ mr: 2, backgroundColor: '#940004' }}
+                value={inputValue}
+                onChange={(e) => {
+                  const newInputValue = e.target.value;
+                  console.log('New input value:', newInputValue);
+                  setInputValue(newInputValue);
+                  handleRemoveDuplicates(newInputValue);
+                }}
+                style={{
+                  backgroundColor: '#940004',
+                  color: 'white',
+                  borderRadius: '6px',
+                  border: 'none',
+                  padding: '6px',
+                  margin: '15px', // Add margin to separate input and button
+                  flex: 1,
+                  // Allow the input to grow to fill available space
+                }}
+              /> */}
 
           <Button
             variant="contained"
@@ -436,27 +479,27 @@ const Popup = () => {
             Reset
           </Button>
           {/* <Button
-          variant='contained'
-          color='primary'
-          sx={{ ml: 2, backgroundColor: '#940004' }}
-          onClick={handleRemoveDuplicates}
-        >
-          Unique
-        </Button>
-        <input
-          type='date'
-          required
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          style={{
-            marginLeft: '16px',
-            backgroundColor: '#940004',
-            color: 'white',
-            borderRadius: '8px',
-            border: 'none',
-            padding: '8px',
-          }}
-        /> */}
+                variant='contained'
+                color='primary'
+                sx={{ ml: 2, backgroundColor: '#940004' }}
+                onClick={handleRemoveDuplicates}
+              >
+                Unique
+              </Button>
+              <input
+                type='date'
+                required
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                style={{
+                  marginLeft: '16px',
+                  backgroundColor: '#940004',
+                  color: 'white',
+                  borderRadius: '8px',
+                  border: 'none',
+                  padding: '8px',
+                }}
+              /> */}
         </div>
       </div>
 
@@ -477,14 +520,13 @@ const Popup = () => {
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.sabooAutoColors[400],
           },
-          "& .MuiDataGrid-footerContainer": {
-            // borderTop: "none",
-            // backgroundColor: colors.sabooAutoColors[600],
-            color:"white",
-            // "& .MuiTypography-root": {
-            //   color: "white", // Change the footer text color to white
-            // },
-          },
+          // "& .MuiDataGrid-footerContainer": {
+          //   borderTop: "none",
+          //   backgroundColor: colors.blueAccent[700],
+          //   "& .MuiTypography-root": {
+          //     color: "white", // Change the footer text color to white
+          //   },
+          // },
           "& .MuiCheckbox-root": {
             color: `${colors.sabooAutoColors[600]} !important`,
           },
@@ -543,5 +585,4 @@ const Popup = () => {
   );
 };
 
-export default Popup;
-
+export default AllData;

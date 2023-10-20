@@ -25,7 +25,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 // import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 // import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 // import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-
+import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -195,6 +195,13 @@ const Sidebar = () => {
               title='Contact Us'
               to='/contactus'
               icon={<ContactPhoneIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title='All Data'
+              to='/alldata'
+              icon={<LeaderboardIcon />}
               selected={selected}
               setSelected={setSelected}
             />
