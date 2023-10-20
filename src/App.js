@@ -26,7 +26,7 @@ function App() {
   const location = useLocation();
   const [dataRefreshCounter, setDataRefreshCounter] = useState(0); // Add this state variable
   // Check if the current location is the login page or the root path
-  const isLoginPage = location.pathname === '/login' || location.pathname === '/';
+  const isLoginPage = location.pathname === '/login'
 
   const refreshData = () => {
     // You can implement your data refresh logic here
