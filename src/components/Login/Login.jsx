@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-
+import "../../style/style.css"
 const defaultTheme = createTheme();
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isShaking, setIsShaking] = useState(false); // Add a state variable for shaking animation
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -48,9 +48,9 @@ const Login = () => {
           body: JSON.stringify({ email, password }),
         }
       );
-
+      const responseData = await response.json();
       if (response.ok) {
-        const responseData = await response.json();
+      
         if (responseData.status) {
           const token = responseData.data.token;
           localStorage.setItem("authToken", token);
@@ -58,13 +58,25 @@ const Login = () => {
         } else {
           // Handle unsuccessful login, e.g., show an error message.
           setError("Login failed: " + responseData.message);
+          setIsShaking(true); // Trigger the shake animation
+          setTimeout(() => {
+            setIsShaking(false);
+          }, 300);
         }
       } else {
         // Handle other network errors.
-        setError("Network error");
+        setError(responseData.message );
+        setIsShaking(true); // Trigger the shake animation
+        setTimeout(() => {
+          setIsShaking(false);
+        }, 300);
       }
     } catch (error) {
       console.error("Error logging in:", error);
+      setIsShaking(true); // Trigger the shake animation
+      setTimeout(() => {
+        setIsShaking(false);
+      }, 300);
     }
   };
 
@@ -107,7 +119,8 @@ const Login = () => {
             marginRight: "100px",
             padding:"50px",
             boxShadow: "1px 2px 7px rgba(0.2, 0.2, 0.2, 0.2)", // Add your shadow properties here
-            borderRadius:"20px"
+            borderRadius:"20px",
+            animation: isShaking ? "shake 0.5s" : "",
           }}
           >
             <img

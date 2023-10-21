@@ -1,12 +1,12 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button } from "@mui/material";
 // import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { tokens } from '../../theme';
+import { tokens } from "../../theme";
 
-import LooksOneIcon from '@mui/icons-material/LooksOne';
-import Header from '../../components/Header';
-import { useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import LooksOneIcon from "@mui/icons-material/LooksOne";
+import Header from "../../components/Header";
+import { useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 //import date range picker files
 // import { DemoContainer } from '@mui/x-da ate-pickers-pro/DateRangePicker';
@@ -29,7 +29,7 @@ const AllData = () => {
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
   const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null   );
+  const [endDate, setEndDate] = useState(null);
 
   const [col, setCol] = useState([]);
 
@@ -95,12 +95,10 @@ const AllData = () => {
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
   };
-  
+
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
   };
-  
-
   async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
@@ -117,7 +115,7 @@ const AllData = () => {
       //   .slice(0, 10);
 
       const res = await axios.post(
-        'https://autozone-backend.onrender.com/findDataInRangeInAllCollections',
+        "https://autozone-backend.onrender.com/findDataInRangeInAllCollections",
         {
           startDate: startDate,
           endDate: endDate,
@@ -158,7 +156,7 @@ const AllData = () => {
           headerName: "Time",
           flex: 1,
         },
-      ]);;
+      ]);
 
       setData(unifiedData);
       setLoading(false);
@@ -177,7 +175,7 @@ const AllData = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/allData'
+        "https://autozone-backend.onrender.com/allData"
       );
       const unifiedData = res.data.data.map((item) => ({
         ...item,
@@ -218,8 +216,8 @@ const AllData = () => {
 
       setData(unifiedData);
       setLoading(false);
-      setStartDate(null)
-      setEndDate(null)
+      setStartDate(null);
+      setEndDate(null);
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -230,7 +228,7 @@ const AllData = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/findDuplicatesInAllCollections'
+        "https://autozone-backend.onrender.com/findDuplicatesInAllCollections"
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -241,25 +239,30 @@ const AllData = () => {
         processedData.push({
           id: idCounter++,
           phoneNumber: item.number,
-          model: item.vehicle || '',
+          model: item.vehicle || "",
           count: item.count,
           date: item.date, // Adding the date field
-          leadFrom :item.leadFrom
+          leadFrom: item.leadFrom,
         });
       });
 
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
-        { field: 'phoneNumber', headerName: 'Phone Number', flex: 1 , cellClassName: 'phone-column--cell', },
-        { field: 'model', headerName: 'Model', flex: 1 },
-        { field: 'leadFrom', headerName: 'leadFrom', flex: 1 },
-        { field: 'count', headerName: 'Count', flex: 1 },
-        { field: 'date', headerName: 'Date', flex: 1 }, // Adding the date column
+        { field: "id", headerName: "ID", flex: 0.5 },
+        {
+          field: "phoneNumber",
+          headerName: "Phone Number",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+        { field: "model", headerName: "Model", flex: 1 },
+        { field: "leadFrom", headerName: "leadFrom", flex: 1 },
+        { field: "count", headerName: "Count", flex: 1 },
+        { field: "date", headerName: "Date", flex: 1 }, // Adding the date column
       ]);
 
       setData(processedData);
       setLoading(false);
-      setStartDate(null)
+      setStartDate(null);
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -333,7 +336,7 @@ const AllData = () => {
     const a = document.createElement("a");
     a.style.display = "none";
     a.href = url;
-    a.download = "All_Data(Arena).csv";
+    a.download = "All_Data(autozone).csv";
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
@@ -341,8 +344,8 @@ const AllData = () => {
   };
 
   // Custom toolbar with the download button
-  
-const CustomToolbar = () => {
+
+  const CustomToolbar = () => {
     return (
       <GridToolbarContainer>
         <GridToolbarColumnsButton />
@@ -358,7 +361,7 @@ const CustomToolbar = () => {
             padding: "5px",
             minWidth: "auto",
             height: "25px",
-            color:"#132a3c",
+            color: "#132a3c",
             "&:hover": {
               color: "#e0962a",
             },
@@ -378,12 +381,9 @@ const CustomToolbar = () => {
           justifyContent: "space-between",
         }}
       >
-        <Header
-          title="All Data"
-          subtitle="data from all forms"
-        />
+        <Header title="All Data" subtitle="data from all forms" />
         <div style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ marginRight: "10px" }}>
+          <div style={{ marginRight: "10px" }}>
             <TextField
               id="start-date"
               label="Start Date"
@@ -425,29 +425,6 @@ const CustomToolbar = () => {
             Duplicates
           </Button>
 
-          {/* <input
-                type='date'
-                required
-                sx={{ mr: 2, backgroundColor: '#940004' }}
-                value={inputValue}
-                onChange={(e) => {
-                  const newInputValue = e.target.value;
-                  console.log('New input value:', newInputValue);
-                  setInputValue(newInputValue);
-                  handleRemoveDuplicates(newInputValue);
-                }}
-                style={{
-                  backgroundColor: '#940004',
-                  color: 'white',
-                  borderRadius: '6px',
-                  border: 'none',
-                  padding: '6px',
-                  margin: '15px', // Add margin to separate input and button
-                  flex: 1,
-                  // Allow the input to grow to fill available space
-                }}
-              /> */}
-
           <Button
             variant="contained"
             color="primary"
@@ -478,28 +455,6 @@ const CustomToolbar = () => {
           >
             Reset
           </Button>
-          {/* <Button
-                variant='contained'
-                color='primary'
-                sx={{ ml: 2, backgroundColor: '#940004' }}
-                onClick={handleRemoveDuplicates}
-              >
-                Unique
-              </Button>
-              <input
-                type='date'
-                required
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                style={{
-                  marginLeft: '16px',
-                  backgroundColor: '#940004',
-                  color: 'white',
-                  borderRadius: '8px',
-                  border: 'none',
-                  padding: '8px',
-                }}
-              /> */}
         </div>
       </div>
 
