@@ -1,5 +1,5 @@
 import { Box, Button, useTheme } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
@@ -31,13 +31,22 @@ const ContactUs = () => {
   const [col, setCol] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+           navigate("/login");
+          return;
+        }
         const res = await axios.get(
-          'https://autozone-backend.onrender.com/getContactus'
+          'https://autozone-backend.onrender.com/getContactus',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.25, },
@@ -88,11 +97,13 @@ const ContactUs = () => {
         setLoading(false);
       } catch (err) {
         setError(err);
+        window.alert(err)
+        navigate("/login");
         setLoading(false);
       }
     }
     fetchData();
-  }, []);
+  }, [navigate]);
 
   let newData = data.map((item, index) => {
     return { ...item, id: index + 1 };
@@ -105,16 +116,24 @@ const ContactUs = () => {
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
   };
-  async function fetchUniqueValues(startDate, endDate) {
+
+  useEffect(() => {
+  async function fetchUniqueValues() {
     try {
       setLoading(true);
-     
-
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.post(
         'https://autozone-backend.onrender.com/contactUsRange',
         {
           startDate: startDate,
           endDate: endDate,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       setCol([
@@ -166,21 +185,32 @@ const ContactUs = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   }
 
-  useEffect(() => {
+
     if (startDate && endDate) {
-      fetchUniqueValues(startDate, endDate);
+      fetchUniqueValues();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, navigate]);
+
 
   const handleReset = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/getContactus'
+        'https://autozone-backend.onrender.com/getContactus',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.25, },
@@ -232,6 +262,8 @@ const ContactUs = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
@@ -239,8 +271,16 @@ const ContactUs = () => {
   const handleDup = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/repeatedContactUs'
+        'https://autozone-backend.onrender.com/repeatedContactUs',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       // Process the response data to create rows
@@ -265,14 +305,24 @@ const ContactUs = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
   const uniqueEntries = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        `https://autozone-backend.onrender.com/contactUsUniqueEntries`
+        `https://autozone-backend.onrender.com/contactUsUniqueEntries`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.25, },
@@ -323,61 +373,12 @@ const ContactUs = () => {
       setLoading(false);
     } catch (error) {
       setError(error);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
 
-  //   { field: 'id', headerName: 'ID', flex: 0.5 },
-  //   // { field: "registrarId", headerName: "Registrar ID" },
-  //   {
-  //     field: 'name',
-  //     headerName: 'Name',
-  //     flex: 1,
-  //     cellClassName: 'name-column--cell',
-  //   },
-  //   // {
-  //   //   field: "age",
-  //   //   headerName: "Age",
-  //   //   type: "number",
-  //   //   headerAlign: "left",
-  //   //   align: "left",
-  //   // },
-  //   {
-  //     field: 'mobile',
-  //     headerName: 'Phone Number',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'email',
-  //     headerName: 'Email',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'program',
-  //     headerName: 'Program',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'date',
-  //     headerName: 'Date',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'time',
-  //     headerName: 'Time',
-  //     flex: 1,
-  //   },
-  //   // {
-  //   //   field: "city",
-  //   //   headerName: "City",
-  //   //   flex: 1,
-  //   // },
-  //   // {
-  //   //   field: "zipCode",
-  //   //   headerName: "Zip Code",
-  //   //   flex: 1,
-  //   // },
-  // ];
   const handleDownloadCSV = () => {
     const csvData = [];
     const headers = col.map((column) => column.headerName);

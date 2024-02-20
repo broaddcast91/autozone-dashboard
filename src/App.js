@@ -26,7 +26,7 @@ function App() {
   const location = useLocation();
   const [dataRefreshCounter, setDataRefreshCounter] = useState(0); // Add this state variable
   // Check if the current location is the login page or the root path
-  const isLoginPage = location.pathname === '/login'
+  const isLoginPage = location.pathname === '/login' ||  location.pathname === '/';
 
   const refreshData = () => {
     // You can implement your data refresh logic here
@@ -46,7 +46,7 @@ function App() {
           <main className='content'>
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-              <Route path='/' element={<Popup />} />
+              <Route path='/' element={<Login />} />
               {/* <Route path="/team" element={<Team />} /> */}
               {/* <Route path='/login' element={<Login />} /> */}
               <Route path='/popup' element={<Popup />} />

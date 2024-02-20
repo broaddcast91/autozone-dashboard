@@ -1,5 +1,5 @@
 import { Box, Button, useTheme } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
@@ -22,8 +22,8 @@ import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TextField from "@mui/material/TextField";
 const OnRoadPrice = () => {
-  // const theme = useTheme();
-  // const colors = tokens(theme.palette.mode);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -32,13 +32,23 @@ const OnRoadPrice = () => {
   const [col, setCol] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+           navigate("/login");
+          return;
+        }
+        console.log(token)
         const res = await axios.get(
-          'https://autozone-backend.onrender.com/getOnRoadPrice'
+          'https://autozone-backend.onrender.com/getOnRoadPrice',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.25 },
@@ -91,11 +101,13 @@ const OnRoadPrice = () => {
         setLoading(false);
       } catch (err) {
         setError(err);
+        window.alert(err)
+        navigate("/login")
         setLoading(false);
       }
     }
     fetchData();
-  }, []);
+  }, [navigate]);
 
   let newData = data.map((item, index) => {
     return { ...item, id: index + 1 };
@@ -109,16 +121,24 @@ const OnRoadPrice = () => {
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
   };
-  async function fetchUniqueValues(startDate, endDate) {
+
+  useEffect(() => {
+  async function fetchUniqueValues() {
     try {
       setLoading(true);
-     
-
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.post(
         'https://autozone-backend.onrender.com/onRoadPriceRange',
         {
           startDate: startDate,
           endDate: endDate,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       setCol([
@@ -172,84 +192,32 @@ const OnRoadPrice = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   }
 
-  useEffect(() => {
+
     if (startDate && endDate) {
-      fetchUniqueValues(startDate, endDate);
+      fetchUniqueValues();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, navigate]);
 
-  // async function fetchData(newInputValue) {
-  //   try {
-  //     setLoading(true);
-  //     const res = await axios.get(
-  //       `https://autozone-8azp.onrender.com/getOnRoadPrice?date=${newInputValue}`
-  //     );
-  //     setCol([
-  //       { field: 'id', headerName: 'ID', flex: 0.5 },
-  //       {
-  //         field: 'date',
-  //         headerName: 'Date',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'time',
-  //         headerName: 'Time',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'name',
-  //         headerName: 'Name',
-  //         flex: 1,
-  //         cellClassName: 'name-column--cell',
-  //       },
-
-  //       {
-  //         field: 'mobile',
-  //         headerName: 'Phone Number',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'email',
-  //         headerName: 'Email',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'vehicle',
-  //         headerName: 'Vehicle',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'outlet',
-  //         headerName: 'Outlet',
-  //         flex: 1,
-  //       },
-  //       {
-  //         field: 'enquiry',
-  //         headerName: 'Enquiry',
-  //         flex: 1,
-  //       },
-  //     ]);
-  //     setData(res.data.data);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     setError(err);
-  //     setLoading(false);
-  //   }
-  // }
-  // const handleRemoveDuplicates = (newInputValue) => {
-  //   //if (inputValue === '') alert('Please select the date');
-  //   //else
-  //   fetchData(newInputValue);
-  // };
+  
   const handleReset = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/getOnRoadPrice'
+        'https://autozone-backend.onrender.com/getOnRoadPrice',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -302,6 +270,8 @@ const OnRoadPrice = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
@@ -309,8 +279,16 @@ const OnRoadPrice = () => {
   const handleDup = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/duplicateOnRoadPrice'
+        'https://autozone-backend.onrender.com/duplicateOnRoadPrice',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -339,14 +317,24 @@ const OnRoadPrice = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
   const uniqueEntries = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        `https://autozone-backend.onrender.com/onRoadPriceUniqueEntries`
+        `https://autozone-backend.onrender.com/onRoadPriceUniqueEntries`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -399,63 +387,13 @@ const OnRoadPrice = () => {
       setLoading(false);
     } catch (error) {
       setError(error);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
-  // const columns = [
-  //   { field: 'id', headerName: 'ID', flex: 0.5 },
-  //   // { field: "registrarId", headerName: "Registrar ID" },
-  //   {
-  //     field: 'name',
-  //     headerName: 'Name',
-  //     flex: 1,
-  //     cellClassName: 'name-column--cell',
-  //   },
-  //   // {
-  //   //   field: "age",
-  //   //   headerName: "Age",
-  //   //   type: "number",
-  //   //   headerAlign: "left",
-  //   //   align: "left",
-  //   // },
-  //   {
-  //     field: 'mobile',
-  //     headerName: 'Phone Number',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'email',
-  //     headerName: 'Email',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'program',
-  //     headerName: 'Program',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'date',
-  //     headerName: 'Date',
-  //     flex: 1,
-  //   },
-  //   {
-  //     field: 'time',
-  //     headerName: 'Time',
-  //     flex: 1,
-  //   },
-  //   // {
-  //   //   field: "city",
-  //   //   headerName: "City",
-  //   //   flex: 1,
-  //   // },
-  //   // {
-  //   //   field: "zipCode",
-  //   //   headerName: "Zip Code",
-  //   //   flex: 1,
-  //   // },
-  // ];
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  
+
 
   const handleDownloadCSV = () => {
     const csvData = [];
@@ -558,29 +496,6 @@ const OnRoadPrice = () => {
         >
           Duplicates
         </Button>
-
-        {/* <input
-          type='date'
-          required
-          sx={{ mr: 2, backgroundColor: '#940004' }}
-          value={inputValue}
-          onChange={(e) => {
-            const newInputValue = e.target.value;
-            console.log('New input value:', newInputValue);
-            setInputValue(newInputValue);
-            handleRemoveDuplicates(newInputValue);
-          }}
-          style={{
-            backgroundColor: '#940004',
-            color: 'white',
-            borderRadius: '6px',
-            border: 'none',
-            padding: '6px',
-            margin: '15px', // Add margin to separate input and button
-            flex: 1,
-            // Allow the input to grow to fill available space
-          }}
-        /> */}
 
         <Button
           variant="contained"

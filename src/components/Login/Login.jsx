@@ -39,7 +39,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://arena-backend-zj42.onrender.com/login",
+        "https://autozone-backend.onrender.com/login",
         {
           method: "POST",
           headers: {
@@ -81,45 +81,64 @@ const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ flexGrow: 1 }}></Box>
+  
+    <ThemeProvider theme={defaultTheme} >
+      <Box sx={{ flexGrow: 1}}></Box>
 
-      <Grid container component="main" sx={{ height: "calc(100vh - 100px)", overflow: "hidden" }}>
+      <Grid container component="main" sx={{ height: "calc(100vh - 100px)", overflow: "hidden" , }}>
 
         <CssBaseline />
         <Grid
-          item
-          xs={false}
-          sm={6}
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(../../assets/autozone-logo.jpeg)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: "light",
-            backgroundPosition: "center",
-            height: "500px",
-            width: "400px",
-            marginTop: "20px",
-            backgroundSize: "contain",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5}>
+      item
+      xs={false}
+      sm={6}
+      md={7}
+      sx={{
+        height: '600px',
+        my: 9,
+        marginLeft: "0", // Adjusted marginLeft
+        paddingLeft:"100px",
+        // backgroundColor:"black"
+      }}
+    >
+      <video
+        autoPlay
+        loop
+        muted
+        style={{
+          width: '80%',
+          height: '80%',
+          objectFit: 'cover',
+          
+        }}
+      >
+        
+        <source src="https://cdnl.iconscout.com/lottie/premium/preview-watermark/man-doing-business-data-analysis-4835205-4019940.mp4" type="video/mp4" />
+       
+      </video>
+    </Grid>
+        <Grid item xs={12} sm={8} md={5}  >
+      
+      
+         <Box
+         >
           <Box
           sx={{
             // border: "solid",
-           
+            // backgroundColor:"black",
+            // marginTop:"-200px",
+            // backgroundColor:"#ffd255",
             height:"500px",
             width:"400px",
-            my: 2,
-            mx: 4,
+            my: 9,
+            mx: 7,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginRight: "100px",
+            // marginRight: "100px",
             padding:"50px",
-            boxShadow: "1px 2px 7px rgba(0.2, 0.2, 0.2, 0.2)", // Add your shadow properties here
-            borderRadius:"20px",
+            boxShadow: "6px 2px 13px rgba(255,189,1,255)", // Add your shadow properties here
+            borderRadius:"30px",
             animation: isShaking ? "shake 0.5s" : "",
           }}
           >
@@ -128,9 +147,9 @@ const Login = () => {
               alt="Logo"
               height="300"
               width="150"
-              style={{ marginRight: "16px", marginTop: "-20px" }}
+              style={{ marginRight: "16px", marginTop: "-20px",  }}
             />
-            <Avatar sx={{ m: 1, backgroundColor: "#132a3c" }}>
+            <Avatar sx={{ m: 1, backgroundColor: "#5f64d6" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5" sx={{ fontWeight: "bold" }}>
@@ -195,10 +214,10 @@ const Login = () => {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  backgroundColor: "#132a3c",
+                  backgroundColor: "#5f64d6",
                   borderRadius: "10px",
                   "&:hover": {
-                    backgroundColor: "#e0962a",
+                    backgroundColor: "#a22a2d",
                   },
                 }}
               >
@@ -206,9 +225,12 @@ const Login = () => {
               </Button>
             </Box>
           </Box>
+          </Box>
+       
         </Grid>
       </Grid>
     </ThemeProvider>
+  
   );
 };
 

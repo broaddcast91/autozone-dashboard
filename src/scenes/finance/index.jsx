@@ -1,5 +1,5 @@
 import { Box, Button, useTheme } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
@@ -31,13 +31,22 @@ const Finance = () => {
   const [col, setCol] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+           navigate("/login");
+          return;
+        }
         const res = await axios.get(
-          'https://autozone-backend.onrender.com/getfinance'
+          'https://autozone-backend.onrender.com/getfinance',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         setCol([
           { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -103,11 +112,13 @@ const Finance = () => {
         setLoading(false);
       } catch (err) {
         setError(err);
+        window.alert(err)
+        navigate("/login");
         setLoading(false);
       }
     }
     fetchData();
-  }, []);
+  }, [navigate]);
 
   let newData = data.map((item, index) => {
     return { ...item, id: index + 1 };
@@ -119,16 +130,25 @@ const Finance = () => {
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
   };
-  async function fetchUniqueValues(startDate, endDate) {
+
+  useEffect(() => {
+  async function fetchUniqueValues() {
     try {
       setLoading(true);
-     
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
 
       const res = await axios.post(
         'https://autozone-backend.onrender.com/financeRange',
         {
           startDate: startDate,
           endDate: endDate,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       setCol([
@@ -195,21 +215,30 @@ const Finance = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   }
 
-  useEffect(() => {
     if (startDate && endDate) {
-      fetchUniqueValues(startDate, endDate);
+      fetchUniqueValues();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate,navigate]);
 
   const handleReset = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/getfinance'
+        'https://autozone-backend.onrender.com/getfinance',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -276,6 +305,8 @@ const Finance = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
@@ -283,8 +314,16 @@ const Finance = () => {
   const handleDup = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/duplicateFinance'
+        'https://autozone-backend.onrender.com/duplicateFinance',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -313,14 +352,24 @@ const Finance = () => {
       setLoading(false);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
   const uniqueEntries = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+         navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        `https://autozone-backend.onrender.com/financeUniqueEntries`
+        `https://autozone-backend.onrender.com/financeUniqueEntries`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setCol([
         { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -386,6 +435,8 @@ const Finance = () => {
       setLoading(false);
     } catch (error) {
       setError(error);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };

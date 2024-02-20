@@ -417,7 +417,7 @@ const AllData = () => {
               mr: 2,
               color: "white",
               "&:hover": {
-                backgroundColor: "#a22a2d",
+                backgroundColor: "#e0962a",
               },
             }}
             onClick={handleDup}
