@@ -49,7 +49,7 @@ const Finance = () => {
           }
         );
         setCol([
-          { field: 'id', headerName: 'ID', flex: 0.5 },
+          { field: 'id', headerName: 'ID', flex: 0.5, width:80, },
           {
             field: 'name',
             headerName: 'Name',
@@ -100,12 +100,14 @@ const Finance = () => {
             field: 'date',
             headerName: 'Date',
             flex: 1,
+            width:100
           },
 
           {
             field: 'time',
             headerName: 'Time',
             flex: 1,
+            width:100
           },
         ]);
         setData(res.data.data);
@@ -629,7 +631,7 @@ const Finance = () => {
 
     <Box
 m="40px 0 0 0"
-height="75vh"
+height="82vh"
 sx={{
   "& .MuiDataGrid-root": {
     border: "none",
@@ -687,6 +689,7 @@ sx={{
   rows={newData}
   columns={col.map((column) => ({
     ...column,
+    minWidth: column.width || 180,
     renderCell: (params) => (
       <div
         style={{
@@ -702,6 +705,23 @@ sx={{
   components={{ Toolbar: CustomToolbar }}
   sx={{
     backgroundColor: "white", // Set the background color to white
+    // overflowX: "auto", // Enable horizontal scrolling for headers
+    overflowX: "auto", // Enable horizontal scrolling for headers
+    "& .MuiDataGrid-colCell": {
+      backgroundColor: colors.sabooAutoColors[600],
+      color: "white",
+    },
+    "& .MuiDataGrid-cell": {
+      borderBottom: "1px solid #ccc",
+    },
+    "& .phone-column--cell": {
+      color: colors.sabooAutoColors[700],
+    },
+    '& .MuiDataGrid-sortIcon': {
+      color: 'white',
+    },
+   
+   
   }}
 />
 )}

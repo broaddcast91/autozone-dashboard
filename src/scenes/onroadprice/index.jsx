@@ -51,7 +51,7 @@ const OnRoadPrice = () => {
           }
         );
         setCol([
-          { field: 'id', headerName: 'ID', flex: 0.25 },
+          { field: 'id', headerName: 'ID', flex: 0.25 ,width: 80,},
           {
             field: 'name',
             headerName: 'Name',
@@ -62,6 +62,7 @@ const OnRoadPrice = () => {
             field: 'email',
             headerName: 'Email',
             flex: 1.5,
+            width: 200,
           },
           {
             field: 'mobile',
@@ -89,12 +90,14 @@ const OnRoadPrice = () => {
             field: 'date',
             headerName: 'Date',
             flex: 1,
+            width: 100,
           },
 
           {
             field: 'time',
             headerName: 'Time',
             flex: 1,
+            width: 100,
           },
         ]);
         setData(res.data.data);
@@ -142,7 +145,7 @@ const OnRoadPrice = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: 'id', headerName: 'ID', flex: 0.25 ,width: 80,},
         {
           field: 'name',
           headerName: 'Name',
@@ -152,7 +155,8 @@ const OnRoadPrice = () => {
         {
           field: 'email',
           headerName: 'Email',
-          flex: 1,
+          flex: 1.5,
+          width: 200,
         },
         {
           field: 'mobile',
@@ -180,12 +184,14 @@ const OnRoadPrice = () => {
           field: 'date',
           headerName: 'Date',
           flex: 1,
+          width: 100,
         },
 
         {
           field: 'time',
           headerName: 'Time',
           flex: 1,
+          width: 100,
         },
       ]);
       setData(res.data.data);
@@ -220,25 +226,26 @@ const OnRoadPrice = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: 'id', headerName: 'ID', flex: 0.25 ,width: 80,},
         {
           field: 'name',
           headerName: 'Name',
           flex: 1,
           cellClassName: 'name-column--cell',
         },
-
+        {
+          field: 'email',
+          headerName: 'Email',
+          flex: 1.5,
+          width: 200,
+        },
         {
           field: 'mobile',
           headerName: 'Phone Number',
           flex: 1,
           cellClassName: "phone-column--cell",
         },
-        {
-          field: 'email',
-          headerName: 'Email',
-          flex: 1,
-        },
+
         {
           field: 'vehicle',
           headerName: 'Vehicle',
@@ -258,11 +265,14 @@ const OnRoadPrice = () => {
           field: 'date',
           headerName: 'Date',
           flex: 1,
+          width: 100,
         },
+
         {
           field: 'time',
           headerName: 'Time',
           flex: 1,
+          width: 100,
         },
       ]);
       setData(res.data.data);
@@ -337,26 +347,26 @@ const OnRoadPrice = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
-
+        { field: 'id', headerName: 'ID', flex: 0.25 ,width: 80,},
         {
           field: 'name',
           headerName: 'Name',
           flex: 1,
           cellClassName: 'name-column--cell',
         },
-
+        {
+          field: 'email',
+          headerName: 'Email',
+          flex: 1.5,
+          width: 200,
+        },
         {
           field: 'mobile',
           headerName: 'Phone Number',
           flex: 1,
           cellClassName: "phone-column--cell",
         },
-        {
-          field: 'email',
-          headerName: 'Email',
-          flex: 1,
-        },
+
         {
           field: 'vehicle',
           headerName: 'Vehicle',
@@ -376,11 +386,14 @@ const OnRoadPrice = () => {
           field: 'date',
           headerName: 'Date',
           flex: 1,
+          width: 100,
         },
+
         {
           field: 'time',
           headerName: 'Time',
           flex: 1,
+          width: 100,
         },
       ]);
       setData(res.data.data);
@@ -545,7 +558,7 @@ const OnRoadPrice = () => {
     
     <Box
 m="40px 0 0 0"
-height="75vh"
+height="82vh"
 sx={{
   "& .MuiDataGrid-root": {
     border: "none",
@@ -561,13 +574,9 @@ sx={{
   "& .MuiDataGrid-virtualScroller": {
     backgroundColor: colors.sabooAutoColors[400],
   },
-  // "& .MuiDataGrid-footerContainer": {
-  //   borderTop: "none",
-  //   backgroundColor: colors.blueAccent[700],
-  //   "& .MuiTypography-root": {
-  //     color: "white", // Change the footer text color to white
-  //   },
-  // },
+//  "& .css-17jjc08-MuiDataGrid-footerContainer ":{
+ 
+//  },
   "& .MuiCheckbox-root": {
     color: `${colors.sabooAutoColors[600]} !important`,
   },
@@ -603,12 +612,14 @@ sx={{
   rows={newData}
   columns={col.map((column) => ({
     ...column,
+    minWidth: column.width || 180,
     renderCell: (params) => (
       <div
         style={{
           whiteSpace: "pre-wrap", // Enable word wrapping
           overflow: "hidden", // Hide overflow content
           textOverflow: "ellipsis", // Show ellipsis for overflow
+          // height :200
         }}
       >
         {params.value}
@@ -617,7 +628,22 @@ sx={{
   }))}
   components={{ Toolbar: CustomToolbar }}
   sx={{
-    backgroundColor: "white", // Set the background color to white
+    backgroundColor: "white",
+    overflowX: "auto", // Enable horizontal scrolling for headers
+    // "& .MuiDataGrid-colCell": {
+    //   backgroundColor: colors.sabooAutoColors[600],
+    //   color: "white",
+    // },
+    // "& .MuiDataGrid-cell": {
+    //   borderBottom: "1px solid #ccc",
+    // },
+    // "& .phone-column--cell": {
+    //   color: colors.sabooAutoColors[700],
+    // },
+    // '& .MuiDataGrid-sortIcon': {
+    //   color: 'red',
+    // },
+   
   }}
 />
 )}

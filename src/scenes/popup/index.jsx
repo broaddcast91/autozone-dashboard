@@ -465,8 +465,7 @@ const Popup = () => {
       </div>
 
       <Box
-        m="40px 0 0 0"
-        height="75vh"
+       height="82vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",

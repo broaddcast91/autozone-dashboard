@@ -50,12 +50,14 @@ const Insurance = () => {
           }
         );
         setCol([
-          { field: 'id', headerName: 'ID', flex: 0.5 },
+          { field: 'id', headerName: 'ID', flex: 0.5 ,width: 80,},
           {
             field: 'name',
             headerName: 'Name',
             flex: 1,
+            
             cellClassName: 'name-column--cell',
+       
           },
           {
             field: 'mobile',
@@ -66,6 +68,7 @@ const Insurance = () => {
             field: 'email',
             headerName: 'Email',
             flex: 1,
+            width: 180,
           },
           {
             field: 'model',
@@ -76,29 +79,30 @@ const Insurance = () => {
             field: 'insurancecompany',
             headerName: 'Insurance Company',
             flex: 1,
+            width: 200,
             cellClassName: 'name-column--cell',
           },
           {
             field: 'policynumber',
             headerName: 'Policy Number',
-            flex: 1,
+            flex: 3,
             cellClassName: 'name-column--cell',
           },
           {
             field: 'registerationnumber',
             headerName: 'Registration Number',
-            flex: 1,
+            flex: 3,
             cellClassName: 'name-column--cell',
           },
           {
             field: 'registerationyear',
             headerName: 'Registration Year',
-            flex: 1,
+            flex: 3,
           },
           {
             field: 'insuranceexpiry',
             headerName: 'Insurance Expiry',
-            flex: 1,
+            flex: 3,
           },
           {
             field: 'date',
@@ -156,12 +160,14 @@ const Insurance = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: 'id', headerName: 'ID', flex: 0.5 ,width: 80,},
         {
           field: 'name',
           headerName: 'Name',
           flex: 1,
+          
           cellClassName: 'name-column--cell',
+     
         },
         {
           field: 'mobile',
@@ -172,6 +178,7 @@ const Insurance = () => {
           field: 'email',
           headerName: 'Email',
           flex: 1,
+          width: 180,
         },
         {
           field: 'model',
@@ -182,29 +189,30 @@ const Insurance = () => {
           field: 'insurancecompany',
           headerName: 'Insurance Company',
           flex: 1,
+          width: 200,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'policynumber',
           headerName: 'Policy Number',
-          flex: 1,
+          flex: 3,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'registerationnumber',
           headerName: 'Registration Number',
-          flex: 1,
+          flex: 3,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'registerationyear',
           headerName: 'Registration Year',
-          flex: 1,
+          flex: 3,
         },
         {
           field: 'insuranceexpiry',
           headerName: 'Insurance Expiry',
-          flex: 1,
+          flex: 3,
         },
         {
           field: 'date',
@@ -247,12 +255,14 @@ const Insurance = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: 'id', headerName: 'ID', flex: 0.5 ,width: 80,},
         {
           field: 'name',
           headerName: 'Name',
           flex: 1,
+          
           cellClassName: 'name-column--cell',
+     
         },
         {
           field: 'mobile',
@@ -263,6 +273,7 @@ const Insurance = () => {
           field: 'email',
           headerName: 'Email',
           flex: 1,
+          width: 180,
         },
         {
           field: 'model',
@@ -273,29 +284,30 @@ const Insurance = () => {
           field: 'insurancecompany',
           headerName: 'Insurance Company',
           flex: 1,
+          width: 200,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'policynumber',
           headerName: 'Policy Number',
-          flex: 1,
+          flex: 3,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'registerationnumber',
           headerName: 'Registration Number',
-          flex: 1,
+          flex: 3,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'registerationyear',
           headerName: 'Registration Year',
-          flex: 1,
+          flex: 3,
         },
         {
           field: 'insuranceexpiry',
           headerName: 'Insurance Expiry',
-          flex: 1,
+          flex: 3,
         },
         {
           field: 'date',
@@ -380,12 +392,14 @@ const Insurance = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: 'id', headerName: 'ID', flex: 0.5 ,width: 80,},
         {
           field: 'name',
           headerName: 'Name',
           flex: 1,
+          
           cellClassName: 'name-column--cell',
+     
         },
         {
           field: 'mobile',
@@ -396,6 +410,7 @@ const Insurance = () => {
           field: 'email',
           headerName: 'Email',
           flex: 1,
+          width: 180,
         },
         {
           field: 'model',
@@ -406,29 +421,30 @@ const Insurance = () => {
           field: 'insurancecompany',
           headerName: 'Insurance Company',
           flex: 1,
+          width: 200,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'policynumber',
           headerName: 'Policy Number',
-          flex: 1,
+          flex: 3,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'registerationnumber',
           headerName: 'Registration Number',
-          flex: 1,
+          flex: 3,
           cellClassName: 'name-column--cell',
         },
         {
           field: 'registerationyear',
           headerName: 'Registration Year',
-          flex: 1,
+          flex: 3,
         },
         {
           field: 'insuranceexpiry',
           headerName: 'Insurance Expiry',
-          flex: 1,
+          flex: 3,
         },
         {
           field: 'date',
@@ -479,37 +495,41 @@ const Insurance = () => {
 
   const CustomToolbar = () => {
     return (
-      <GridToolbarContainer>
-        <GridToolbarColumnsButton />
-        <GridToolbarFilterButton />
-        <GridToolbarDensitySelector />
-        <IconButton
-          color="primary"
-          onClick={handleDownloadCSV}
-          sx={{
-            marginLeft: "10px",
-            backgroundColor: "white",
-            fontSize: "14px",
-            padding: "5px",
-            minWidth: "auto",
-            height: "25px",
-            color: "#132a3c",
-            "&:hover": {
-              color: "#e0962a",
-            },
-          }}
-        >
-          <DownloadIcon />
-        </IconButton>
-      </GridToolbarContainer>
+      <div>
+        <GridToolbarContainer>
+          <GridToolbarColumnsButton />
+          <GridToolbarFilterButton />
+          <GridToolbarDensitySelector />
+          <IconButton
+            color="primary"
+            onClick={handleDownloadCSV}
+            sx={{
+              marginLeft: "10px",
+              backgroundColor: "white",
+              fontSize: "14px",
+              padding: "5px",
+              minWidth: "auto",
+              height: "25px",
+              color: "#132a3c",
+              "&:hover": {
+                color: "#e0962a",
+              },
+            }}
+          >
+            <DownloadIcon />
+          </IconButton>
+        </GridToolbarContainer>
+      </div>
     );
   };
+  
   return (
     <Box m="20px">
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
+          
         }}
       >
         <Header
@@ -639,7 +659,7 @@ const Insurance = () => {
 
       <Box
 m="40px 0 0 0"
-height="75vh"
+height="82vh"
 sx={{
   "& .MuiDataGrid-root": {
     border: "none",
@@ -688,33 +708,56 @@ sx={{
   },
 }}
 >
-{loading ? (
-  <div>Processing, please wait...</div>
-) : error ? (
-  "Error ~ Something went wrong :)"
-) : (
-  <DataGrid
-  rows={newData}
-  columns={col.map((column) => ({
-    ...column,
-    renderCell: (params) => (
-      <div
-        style={{
-          whiteSpace: "pre-wrap", // Enable word wrapping
-          overflow: "hidden", // Hide overflow content
-          textOverflow: "ellipsis", // Show ellipsis for overflow
-        }}
-      >
-        {params.value}
-      </div>
-    ),
-  }))}
-  components={{ Toolbar: CustomToolbar }}
-  sx={{
-    backgroundColor: "white", // Set the background color to white
-  }}
-/>
-)}
+
+          {loading ? (
+            <div>Processing, please wait...</div>
+          ) : error ? (
+            "Error ~ Something went wrong :)"
+          ) : (
+            <DataGrid
+            rows={newData}
+            columns={col.map((column) => ({
+              ...column,
+              minWidth: column.width || 150,
+              renderCell: (params) => (
+                <div
+                  style={{
+                    whiteSpace: "pre-wrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {params.value}
+                </div>
+              ),
+           
+            }))}
+            components={{
+              Toolbar: CustomToolbar,
+           
+            }}
+            sx={{
+              backgroundColor: "white",
+              overflowX: "auto", // Enable horizontal scrolling for headers
+              "& .MuiDataGrid-colCell": {
+                backgroundColor: colors.sabooAutoColors[600],
+                color: "white",
+              },
+              "& .MuiDataGrid-cell": {
+                borderBottom: "1px solid #ccc",
+              },
+              "& .phone-column--cell": {
+                color: colors.sabooAutoColors[700],
+              },
+              '& .MuiDataGrid-sortIcon': {
+                color: 'white',
+              },
+             
+            }}
+          />
+          
+          )}
+        
 </Box>
     </Box>
   );

@@ -49,7 +49,7 @@ const ContactUs = () => {
           }
         );
         setCol([
-          { field: 'id', headerName: 'ID', flex: 0.25, },
+          { field: 'id', headerName: 'ID', flex: 0.25,width:80 },
           {
             field: 'name',
             headerName: 'Name',
@@ -76,6 +76,7 @@ const ContactUs = () => {
             field: 'desc',
             headerName: 'Description',
             flex: 1,
+            width:350
           },
           {
             field: 'outlet',
@@ -86,11 +87,13 @@ const ContactUs = () => {
             field: 'date',
             headerName: 'Date',
             flex: 0.5,
+            width:120
           },
           {
             field: 'time',
             headerName: 'Time',
             flex: 0.5,
+            width:120
           },
         ]);
         setData(res.data.data);
@@ -137,7 +140,7 @@ const ContactUs = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.25, },
+        { field: 'id', headerName: 'ID', flex: 0.25,width:80 },
         {
           field: 'name',
           headerName: 'Name',
@@ -164,6 +167,7 @@ const ContactUs = () => {
           field: 'desc',
           headerName: 'Description',
           flex: 1,
+          width:350
         },
         {
           field: 'outlet',
@@ -174,11 +178,13 @@ const ContactUs = () => {
           field: 'date',
           headerName: 'Date',
           flex: 0.5,
+          width:120
         },
         {
           field: 'time',
           headerName: 'Time',
           flex: 0.5,
+          width:120
         },
       ]);
       setData(res.data.data);
@@ -213,7 +219,7 @@ const ContactUs = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.25, },
+        { field: 'id', headerName: 'ID', flex: 0.25,width:80 },
         {
           field: 'name',
           headerName: 'Name',
@@ -240,6 +246,7 @@ const ContactUs = () => {
           field: 'desc',
           headerName: 'Description',
           flex: 1,
+          width:350
         },
         {
           field: 'outlet',
@@ -250,11 +257,13 @@ const ContactUs = () => {
           field: 'date',
           headerName: 'Date',
           flex: 0.5,
+          width:120
         },
         {
           field: 'time',
           headerName: 'Time',
           flex: 0.5,
+          width:120
         },
       ]);
       setData(res.data.data);
@@ -325,7 +334,7 @@ const ContactUs = () => {
         }
       );
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.25, },
+        { field: 'id', headerName: 'ID', flex: 0.25,width:80 },
         {
           field: 'name',
           headerName: 'Name',
@@ -352,6 +361,7 @@ const ContactUs = () => {
           field: 'desc',
           headerName: 'Description',
           flex: 1,
+          width:350
         },
         {
           field: 'outlet',
@@ -362,11 +372,13 @@ const ContactUs = () => {
           field: 'date',
           headerName: 'Date',
           flex: 0.5,
+          width:120
         },
         {
           field: 'time',
           headerName: 'Time',
           flex: 0.5,
+          width:120
         },
       ]);
       setData(res.data.data);
@@ -566,7 +578,7 @@ const ContactUs = () => {
 
     <Box
 m="40px 0 0 0"
-height="75vh"
+height="82vh"
 sx={{
   "& .MuiDataGrid-root": {
     border: "none",
@@ -624,6 +636,7 @@ sx={{
   rows={newData}
   columns={col.map((column) => ({
     ...column,
+    minWidth: column.width || 180,
     renderCell: (params) => (
       <div
         style={{
@@ -639,6 +652,13 @@ sx={{
   components={{ Toolbar: CustomToolbar }}
   sx={{
     backgroundColor: "white", // Set the background color to white
+     "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: colors.sabooAutoColors[400],
+          },
+          "& .MuiDataGrid-horizontalScroll": {
+            scrollbarWidth: "thin",  // Set the thickness of the horizontal scroll bar
+            color:"red"
+          },
   }}
 />
 

@@ -63,6 +63,7 @@ const Sidebar = () => {
     sx={{
       '& .pro-sidebar-inner': {
         background: `${colors.sabooAutoColors[600]} !important`,
+        // height :"100vh"
       },
       '& .pro-icon-wrapper': {
         backgroundColor: 'transparent !important',
